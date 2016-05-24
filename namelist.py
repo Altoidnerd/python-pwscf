@@ -54,14 +54,17 @@ class Namelist(object):
         
     
   def __str__(self):
-    return '\t&{}\n{}{}'.format(self.name, li_to_str(self.content),'/')
+    return '\t&{}\n{}{}'.format(self.name, li_to_str(self.content),'/\n')
 
   def __repr__(self):
     return self.__str__()
  
-  def add_variable(self, var, val):
+  def set_value(self, var, val):
     self.content.append(format_pair(var, val))
 
+  def set_multiple(self, var_list, val):
+    for var in var_list:
+      self.set_value(var, val)
   
   def get_index(self, var):
     return self.content.index(var)
