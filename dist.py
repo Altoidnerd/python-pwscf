@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-import sys
-
 class Dist(object):
 
   def __init__(self, infile):
