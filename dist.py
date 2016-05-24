@@ -17,18 +17,18 @@ class Dist(object):
       s += line
     return s
 
-  def get_bondlengths(self):
-    return [line.split() for line in self.file_array if ( line.endswith(' A  \n') or line.endswith(' A *\n') ) ]
+  def get_bondlens(self):
+    return [ line.split() for line in self.file_array if ( line.endswith(' A  \n') or line.endswith(' A *\n') ) ]
 
   def get_species(self):
     species = dict()
-    atom_lines = [line for line in self.file_array if 'neighbors' in line]
+    atom_lines = [ line for line in self.file_array if 'neighbors' in line ]
     for line in atom_lines:
       pass
 
   def get_neighbors(self):
     neighbors = []
-    atom_lines = [line for line in self.file_array if 'neighbors' in line][1:]
+    atom_lines = [ line for line in self.file_array if 'neighbors' in line ][1:]
     for line in atom_lines:
       nearest = line.split()[7:11]
       neighbors.append(nearest)
@@ -43,7 +43,7 @@ class Dist(object):
 
 def main():
   mydist = Dist('dist.out')
-  bonds = mydist.get_bondlengths()
+  bonds = mydist.get_bondlens()
   angles = mydist.get_angles()
 #  species = mydist.get_species()
   neighbors = mydist.get_neighbors()
