@@ -37,10 +37,10 @@ class Namelist(object):
     
 
   def __str__(self):
-    return '&{}\n{}{}'.format(self.name, li_to_str(self.content),'/')
+    return '\t&{}\n{}{}'.format(self.name, li_to_str(self.content),'/')
 
  
-  def add_variable(var, val):
+  def add_variable(self, var, val):
     self.content.append(format_pair(var, val))
 
   
