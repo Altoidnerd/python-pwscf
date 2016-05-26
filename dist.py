@@ -22,7 +22,7 @@ class Dist(object):
     for line in self.file_array:
       sys.stdout.write(line)
 
-  def get_species(self, symbol=None):
+  def get_species(self, atomic_symbol=None):
     relevant_lines = []
     species_dict = dict()
     for line in self.get_bond_lines():
@@ -32,10 +32,11 @@ class Dist(object):
       species_2 = line[2].split('-')[1]
       species_dict[int(atom_id_1)] = species_1
       species_dict[int(atom_id_2)] = species_2
-    if symbol is not None:
-      if not type(symbol) == str:
+    
+    if atomic_symbol is not None:
+      if not type(atomic_symbol) == str:
         raise TypeError("get_species takes an optional parameter of type str.")
-      return [ species_dict[k] for k in species_dict.keys() if species_dict[k] == atom ]
+      return { k: species_dict[k] for k in species_dict.keys() if species_dict[k] == atomic_symbol }
     else:
       return species_dict
 
@@ -68,9 +69,9 @@ class Dist(object):
 
 def main():
   mydist = Dist('dist.out')
-  bonds = mydist.get_bondlens()
+  bonds = mydist.get_bond_lines()
   angles = mydist.get_angles()
-#  species = mydist.get_species()
+  species = mydist.get_species()
   neighbors = mydist.get_neighbors()
   print(bonds, angles, neighbors)
 
