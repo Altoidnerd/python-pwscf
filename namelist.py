@@ -52,7 +52,7 @@ class Namelist(object):
     s = ""
     s += '{}{}\n'.format('&', self.name)
     for k in self.content.keys():
-      s += "\t{}={}\n".format(k, format_val(self.content[k]))
+      s += "    {}={}\n".format(k, format_val(self.content[k]))
     s += '/\n'
     return s   
 
