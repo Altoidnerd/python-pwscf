@@ -77,76 +77,34 @@ class Dist(object):
 
   def get_neighbor_lines(self):
     return [ line for line in self.file_array if 'species' in line ]
- 
 
 
 
-
-
-
-
-
-
-
-#########################################################################################
-#	GET RID OF get_angles() or get_angles_2() WHEN DONE DEBUGGING!!!!!		#
-#########################################################################################
 
   def get_angles(self, atomic_symbol=None):
     angles_dict = dict()
-    for line in self.get_angles_list():
-      angles_dict[self.get_angles_list().index(line)] = line
-    if atomic_symbol is None:
-      return angles_dict
-    else:
-      if not type(atomic_symbol) == str:
-        raise TypeError("Dist.get_angles() takes an optional paramter of type str") 
-      return { k : angles_dict[k] for k in angles_dict.keys() if angles_dict[k] == atomic_symbol }
+    
+    for k in self.get_species().keys():
+      try:
+        angles_dict[k] = self.get_angles_lines()[int(k)-1]
+      except IndexError:
+        pass
+    return angles_dict
+
+#    if atomic_symbol is None:
+ #     return angles_dict
+  #  else:
+   #   if not type(atomic_symbol) == str:
+    #    raise TypeError("Dist.get_angles() takes an optional paramter of type str") 
+     # return { k : angles_dict[k] for k in angles_dict.keys() if angles_dict[k] == atomic_symbol }
 
 
-  def get_angles_2(self, atomic_symbol=None):
-    angles_dict = dict()
-    for line in self.get_angles_list():
-      angles_dict[self.get_angles_list().index(line)] = line
-    if atomic_symbol is None:
-      return angles_dict
-    else:
-      if not type(atomic_symbol) == str:
-        raise TypeError("Dist.get_angles() takes an optional paramter of type str") 
-      return { k : angles_dict[k] for k in angles_dict.keys() if angles_dict[k] == atomic_symbol }
-
-
-
-#########################################################################################
-#	GET RID OF get_angles() or get_angles_2() WHEN DONE DEBUGGING!!!!!		#
-#########################################################################################
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#################
+#	debug 	#
+#################
 final=Dist("dist.final.positions.out")
 initial=Dist("dist.out")
-
+print(final.get_angles())
 
  
 def main():
