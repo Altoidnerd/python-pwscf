@@ -63,7 +63,7 @@ def main():
   control.set_val("outdir", "./scratch")
   control.set_val("pseudo_dir", "/home/altoidnerd/PSEUDOPOTENTIALS/")
   control.set_val("verbosity","high")
-  control.set_val("title","p-dichlorobenzene-efg")
+  control.set_val("title","quartz-crystal-scf")
   control.set_val("restart_mode","from_scratch")
   control.set_val("forc_conv_thr",1.0e-4)
   control.set_val("disk_io","low")
