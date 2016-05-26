@@ -48,10 +48,6 @@ class Namelist(object):
   def unset(self, key):
     self.content.pop(key)
 
-  def set_multiple(self, key_list, val):
-    for key in key_list:
-      self.set_val(key, val)
-  
   def __repr__(self):
     s = ""
     s += '{}{}\n'.format('&', self.name)
