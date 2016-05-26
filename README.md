@@ -1,5 +1,5 @@
 
-![scrot](doc/img/1.png= "Optional Title)
+![scrot]("doc/img/1.png" "Optional Title)
 ![scrot](doc/img/2.png= "Optional Title")
 ![scrot](doc/img/3.png= "Optional Title")
 ![scrot](doc/img/4.png= "Optional Title")
