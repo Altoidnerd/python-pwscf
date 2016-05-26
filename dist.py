@@ -30,8 +30,8 @@ class Dist(object):
       atom_id_2 = line[1]    
       species_1 = line[2].split('-')[0]
       species_2 = line[2].split('-')[1]
-      species_dict[int(atom_id_1)] = species_1
-      species_dict[int(atom_id_2)] = species_2
+      species_dict[str(atom_id_1)] = species_1
+      species_dict[str(atom_id_2)] = species_2
     
     if atomic_symbol is not None:
       if not type(atomic_symbol) == str:
