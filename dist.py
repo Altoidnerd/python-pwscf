@@ -1,5 +1,34 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3                   
+#
+# Copyright (c) 2016 altoidnerd                                                 
+#################################################################################
+#                                               								#
+# Permission is hereby granted, free of charge, to any person obtaining a 	    #
+# copy of this software and associated documentation files (the "Software"),	#
+# to deal in the Software without restriction, including without limitation 	#
+# the rights to use, copy, modify, merge, publish, distribute, sublicense, 	    #
+# and/or sell copies of the Software, and to permit persons to whom the 	    #
+# Software is furnished to do so, subject to the following conditions:		    #
+#										                                        #
+# The above copyright notice and this permission notice shall be included 	    #
+# in all copies or substantial portions of the Software.			            #
+#										                                        #
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 	#
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 	    #
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 	    #
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 	#
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,	#
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE	#
+# THE SOFTWARE.									                                #  
+#################################################################################
+#
+#
+#   designed for python3; run with      
+#   > 2.7 at your own risk              
+#
+#
 
+from __future__ import print_functon
 import sys
 
 class Dist(object):
@@ -91,3 +120,27 @@ class Dist(object):
     # case 4: return the dictionary subset corresponding to atomic symbol "symbol"
         return { k: angles_dict[k] for k in angles_dict.keys() if k == symbol }
            
+def main():
+
+  fin = Dist('dist.final.positions.out')
+  a = Dist('dist.final.positions.out').get_angles()['13']
+  b = Dist('dist.final.positions.out').get_angles(13)
+  c = Dist('dist.final.positions.out').get_angles('13')
+
+  print("\nbeginning test ...")
+
+  if sys.version_info[0] == 2:
+    map(sys.stdout.write, [fin.get_angles(13), fin.get_angles('13'), fin.get_angles()['13'], a, b, c,'\n' ])
+    sys.exit()
+
+  elif sys.version_info[0] == 3:
+    print(fin.get_angles(13), fin.get_angles('13'), fin.get_angles()['13'], a, b, c,sep='')
+    
+if __name__ == '__main__':
+  main()
+
+
+
+
+
+
