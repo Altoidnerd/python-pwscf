@@ -35,18 +35,18 @@ class Dist(object):
     
     if atomic_symbol is not None:
       if not type(atomic_symbol) == str:
-        raise TypeError("get_species takes an optional parameter of type str.")
+        raise TypeError("Dist.get_species() takes an optional parameter of type str.")
       return { k: species_dict[k] for k in species_dict.keys() if species_dict[k] == atomic_symbol }
     else:
       return species_dict
 
-  def get_bond_length_lines(self):
-    relevant_lines = []
-    bondlen_dict = dict()
-    for line in self.file_array:
-      if line.endswith(' A  \n') or line.endswith(' A *\n'):
-        relevant_lines.append(line)
-    return relevant_lines
+#  def get_bond_length_lines(self):
+ #   relevant_lines = []
+  #  bondlen_dict = dict()
+   # for line in self.file_array:
+    #  if line.endswith(' A  \n') or line.endswith(' A *\n'):
+     #   relevant_lines.append(line)
+   # return relevant_lines
 
   def get_bond_lines(self, atom=None):
     return [ line.split() for line in self.file_array if ( line.endswith(' A  \n') or line.endswith(' A *\n') ) ]
@@ -60,17 +60,41 @@ class Dist(object):
       neighbors.append(nearest)
     return neighbors
 
-  def get_angles(self):
+  def get_angles_list(self):
     angles = []
     angle_lines = [ line for line in self.file_array if 'angles' in line]
     for line in angle_lines:
       angles.append(line.split()[5:11])
     return angles
 
+
+
+
+
+  def get_angles(self, atomic_symbol=None):
+    angles_dict = dict()
+    for line in self.get_angles_list():
+      angles_dict[self.get_angles_list().index(line)] = line
+    if atomic_symbol is None:
+      return angles_dict
+    else:
+      if not type(atomic_symbol) == str:
+        raise TypeError("Dist.get_angles() takes an optional paramter of type str") 
+      return { k : angles_dict[k] for k in angles_dict.keys() if angles_dict[k] == atomic_symbol }
+
+
+## DEBUG
+
+final=Dist("dist.final.positions.out")
+initial=Dist("dist.out")
+print(final.get_angles(atomic_symbol='C'))
+
+
+ 
 def main():
   mydist = Dist('dist.out')
   bonds = mydist.get_bond_lines()
-  angles = mydist.get_angles()
+  angles = mydist.get_angles_list()
   species = mydist.get_species()
   neighbors = mydist.get_neighbors()
   print(bonds, angles, neighbors)
