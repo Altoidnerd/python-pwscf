@@ -40,13 +40,6 @@ class Dist(object):
     else:
       return species_dict
 
-#  def get_bond_length_lines(self):
- #   relevant_lines = []
-  #  bondlen_dict = dict()
-   # for line in self.file_array:
-    #  if line.endswith(' A  \n') or line.endswith(' A *\n'):
-     #   relevant_lines.append(line)
-   # return relevant_lines
 
   def get_bond_lines(self, atom=None):
     return [ line.split() for line in self.file_array if ( line.endswith(' A  \n') or line.endswith(' A *\n') ) ]
@@ -79,42 +72,22 @@ class Dist(object):
     return [ line for line in self.file_array if 'species' in line ]
 
 
-
-
-  def get_angles(self, atomic_symbol=None):
+  def get_angles(self, symbol=None):
     angles_dict = dict()
     
     for k in self.get_species().keys():
+      angles_dict[k] = self.get_angles_lines()[int(k)-1] 
+    # case 1: return the entire dictionary
+    if symbol is None:
+      return angles_dict
+    # case 2: return the angles for species with id = symbol 
+    elif type(symbol) is int:
+      return angles_dict[str(symbol)]
+    # case 3: check if we have case 2 except the index was given as a string
+    elif type(symbol) is str:
       try:
-        angles_dict[k] = self.get_angles_lines()[int(k)-1]
-      except IndexError:
-        pass
-    return angles_dict
-
-#    if atomic_symbol is None:
- #     return angles_dict
-  #  else:
-   #   if not type(atomic_symbol) == str:
-    #    raise TypeError("Dist.get_angles() takes an optional paramter of type str") 
-     # return { k : angles_dict[k] for k in angles_dict.keys() if angles_dict[k] == atomic_symbol }
-
-
-#################
-#	debug 	#
-#################
-final=Dist("dist.final.positions.out")
-initial=Dist("dist.out")
-print(final.get_angles())
-
- 
-def main():
-  mydist = Dist('dist.out')
-  bonds = mydist.get_bond_lines()
-  angles = mydist.get_angles_list()
-  species = mydist.get_species()
-  neighbors = mydist.get_neighbors()
-  print(bonds, angles, neighbors)
-
-
-if __name__ == '__main__':
-  main()
+        return angles_dict[symbol]
+      except KeyError:
+    # case 4: return the dictionary subset corresponding to atomic symbol "symbol"
+        return { k: angles_dict[k] for k in angles_dict.keys() if k == symbol }
+           
