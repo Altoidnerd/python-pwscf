@@ -7,7 +7,7 @@ def float_if_number(var):
     return str(var)
 
 def format_val(val):
-  if type(float_if_number(val)) == float:
+  if type(float_if_number(val)) == float or val == '.true.' or val== '.flase.':
     return "{}".format(val)
   else:
     return "'{}'".format(val)
