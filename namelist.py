@@ -60,9 +60,5 @@ class Namelist(object):
     s += '/\n'
     return s   
 
-  def get_index(self, var):
-    return self.content.index(var)
-
-from example import *
 
 
