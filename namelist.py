@@ -39,18 +39,18 @@ class Namelist(object):
       raise ValueError('{} is not a valid namelist.'.format(self.name))
 
 
-  def get_value(self, var):
-    return self.content[var]
+  def get_val(self, key):
+    return self.content[key]
   
-  def set_value(self, var, val):
-    self.content[var] = float_if_number(val)
+  def set_val(self, key, val):
+    self.content[key] = float_if_number(val)
   
-  def unset(self, var):
-    self.content.pop(var)
+  def unset(self, key):
+    self.content.pop(key)
 
-  def set_multiple(self, var_list, val):
-    for var in var_list:
-      self.set_value(var, val)
+  def set_multiple(self, key_list, val):
+    for key in key_list:
+      self.set_val(key, val)
   
   def __repr__(self):
     s = ""
