@@ -117,27 +117,27 @@ class Dist(object):
     # case 4: return the dictionary subset corresponding to atomic symbol "symbol"
         return { k: angles_dict[k] for k in angles_dict.keys() if k == symbol }
            
-def main():
+#def main():
 
-  fin = Dist('misc/dist.final.positions.out')
-  a = Dist('misc/dist.final.positions.out').get_angles()['13']
-  b = Dist('misc/dist.final.positions.out').get_angles(13)
-  c = Dist('misc/dist.final.positions.out').get_angles('13')
+#  fin = Dist('misc/dist.final.positions.out')
+#  a = Dist('misc/dist.final.positions.out').get_angles()['13']
+#  b = Dist('misc/dist.final.positions.out').get_angles(13)
+#  c = Dist('misc/dist.final.positions.out').get_angles('13')
+#
+#  print("\nbeginning test ...")
 
-  print("\nbeginning test ...")
+ # if sys.version_info[0] == 2:
+  #  map(sys.stdout.write, [fin.get_angles(13), fin.get_angles('13'), fin.get_angles()['13'], a, b, c,'\n' ])
+   # sys.exit()
 
-  if sys.version_info[0] == 2:
-    map(sys.stdout.write, [fin.get_angles(13), fin.get_angles('13'), fin.get_angles()['13'], a, b, c,'\n' ])
-    sys.exit()
-
-  elif sys.version_info[0] == 3:
-    print(fin.get_angles(13), fin.get_angles('13'), fin.get_angles()['13'], a, b, c,sep='')
-    
-if __name__ == '__main__':
-  main()
-
-
+#  elif sys.version_info[0] == 3:
+#    print(fin.get_angles(13), fin.get_angles('13'), fin.get_angles()['13'], a, b, c,sep='')
+ #   
+#if __name__ == '__main__':
+ # main()
 
 
+
+#
 
 
