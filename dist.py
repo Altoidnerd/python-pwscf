@@ -27,6 +27,7 @@
 #   run on > 2.7 at your own risk.						
 
 import sys
+import matplotlib.pyplot as plt
 
 class Dist(object):
 
@@ -116,7 +117,23 @@ class Dist(object):
       except KeyError:
     # case 4: return the dictionary subset corresponding to atomic symbol "symbol"
         return { k: angles_dict[k] for k in angles_dict.keys() if k == symbol }
-           
+    
+
+  
+#def hist(infile):
+#  d = Dist(infile)
+#  angles = []
+# 
+ # for key in d.get_angles().keys():
+  #  for ang in d.get_angles(key).split()[5:]:
+   #   angles.append(float(ang))
+
+#  plt.hist(angles)
+ # plt.show()
+
+
+
+       
 #def main():
 
 #  fin = Dist('misc/dist.final.positions.out')
