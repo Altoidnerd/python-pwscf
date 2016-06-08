@@ -69,8 +69,13 @@ class Dist(object):
 
 
   def get_bond_lines(self, atom=None):
-    return [ line.split() for line in self.file_array if ( line.endswith(' A  \n') or line.endswith(' A *\n') ) ]
+    return [ line for line in self.file_array if ( line.endswith(' A  \n') or line.endswith(' A *\n') ) ]
 
+  def get_bonds(self, symbol=None):
+    if symbol is None:
+      return self.get_bond_lines()
+    else:
+      return [ line for line in self.get_bond_lines() if (line.split()[2] == symbol or line.split()[2] == symbol[::-1]) ]
 
   def get_neighbors_list(self):
     neighbors = []
