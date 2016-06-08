@@ -72,13 +72,33 @@ class Dist(object):
     return [ line.split() for line in self.file_array if ( line.endswith(' A  \n') or line.endswith(' A *\n') ) ]
 
 
-  def get_neighbors(self):
+  def get_neighbors_list(self):
     neighbors = []
     atom_lines = [ line for line in self.file_array if 'neighbors' in line ][1:]
     for line in atom_lines:
       nearest = line.split()[7:11]
       neighbors.append(nearest)
     return neighbors
+
+
+  def get_neighbor_lines(self):
+    return [ line for line in self.file_array if 'species' in line ]
+
+
+  def get_neighbors(self, symbol=None):
+    neighbors_dict = dict()
+    for line in self.get_neighbor_lines():
+      neighbors_dict[line.split()[1]] = line
+    if symbol is None:
+      return neighbors_dict
+    if type(symbol) is int:
+      return neighbors_dict[str(symbol)]
+    if type(symbol) is str:
+      try:
+        return neighbors_dict[symbol]
+      except KeyError:
+        return { k: neighbors_dict[k] for k in self.get_species(symbol).keys() }  
+
 
   def get_angles_list(self):
     angles = []
@@ -94,9 +114,6 @@ class Dist(object):
     for line in angle_lines:
       angles.append(line)
     return angles
-
-  def get_neighbor_lines(self):
-    return [ line for line in self.file_array if 'species' in line ]
 
 
   def get_angles(self, symbol=None):
