@@ -65,15 +65,14 @@ def main():
   sys.stdout.write('nucleus\t\tsite\t\tCq(mhz)\t\teta\t\tv0\t\tv-\t\tv+\n')
   
   for line in relevant_lines:
-    line.replace("eta=-", "eta= ")
+    line.replace("eta=-0", "eta= 0")
     x = line.split()
     cq = float(x[7])
     eta = float(x[10])
+    v0, vminus, vplus = ' - ',' - ',' - '
 
     if x[0] == 'Cl':
       v0 = f32(cq, eta)
-      vminus = ''
-      vplus = ''
 
     elif x[0] == 'N':
       v0     = f1(float(x[7]), float(x[10]))[0]
