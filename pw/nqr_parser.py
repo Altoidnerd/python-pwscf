@@ -69,12 +69,10 @@ def main():
     x = line.split()
     cq = float(x[7])
     eta = float(x[10])
-    v0, vminus, vplus = None, None, None
+    v0, vminus, vplus = ' - ',' - ',' - '
 
     if x[0] == 'Cl':
       v0 = f32(cq, eta)
-      vminus = ''
-      vplus = ''
 
     elif x[0] == 'N':
       v0     = f1(float(x[7]), float(x[10]))[0]
