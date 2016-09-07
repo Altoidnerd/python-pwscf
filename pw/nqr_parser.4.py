@@ -75,12 +75,12 @@ def main():
     v0, vminus, vplus = ' - ',' - ',' - '
 
     if symbol == 'Cl':
-      v0 = str(f32(cq, eta))[:7]
+      v0 = str(f32(cq, eta))[:9]
 
     elif symbol == 'N':
-      v0     = str(f1(cq, eta)[0])[:7]
-      vminus = str(f1(cq, eta)[1])[:7]
-      vplus  = str(f1(cq, eta)[2])[:7]
+      v0     = str(f1(cq, eta)[0])[:9]
+      vminus = str(f1(cq, eta)[1])[:9]
+      vplus  = str(f1(cq, eta)[2])[:9]
 
     space_size = 15
     space1 = (space_size - len(symbol   ))*" "
