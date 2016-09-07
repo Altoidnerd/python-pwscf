@@ -65,7 +65,7 @@ def main():
   sys.stdout.write('nucleus\t\tsite\t\tCq(mhz)\t\teta\t\tv0\t\tv-\t\tv+\n')
   
   for line in relevant_lines:
-    line.replace("eta=-", "eta= ")
+    line = line.replace("eta=-", "eta= ")
     x = line.split()
     symbol = x[0]
     site_num = x[1]
