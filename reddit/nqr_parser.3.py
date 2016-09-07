@@ -67,27 +67,31 @@ def main():
   for line in relevant_lines:
     line.replace("eta=-", "eta= ")
     x = line.split()
+    symbol = x[0]
+    site_num = x[1]
+    quadrupole_moment = float(x[3])
     cq = float(x[7])
     eta = float(x[10])
     v0, vminus, vplus = ' - ',' - ',' - '
 
-    if x[0] == 'Cl':
-      v0 = str(f32(cq, eta))[:7]
+    if symbol == 'Cl':
+      v0 = str(f32(cq, eta))[:9]
 
-    elif x[0] == 'N':
-      v0     = str(f1(cq, eta)[0])[:7]
-      vminus = str(f1(cq, eta)[1])[:7]
-      vplus  = str(f1(cq, eta)[2])[:7]
+    elif symbol == 'N':
+      v0     = str(f1(cq, eta)[0])[:9]
+      vminus = str(f1(cq, eta)[1])[:9]
+      vplus  = str(f1(cq, eta)[2])[:9]
 
     space_size = 15
-    space1 = (space_size - len(x[0 ] ))*" "
-    space2 = (space_size - len(x[1 ] ))*" "
-    space3 = (space_size - len(x[7 ] ))*" "
-    space4 = (space_size - len(x[10] ))*" "
-    space5 = (space_size - len(v0    ))*" "
-    space6 = (space_size - len(vminus))*" "
+    space1 = (space_size - len(symbol   ))*" "
+    space2 = (space_size - len(site_num ))*" "
+    space3 = (space_size - len(str(cq)  ))*" "
+    space4 = (space_size - len(str(eta) ))*" "
+    space5 = (space_size - len(v0       ))*" "
+    space6 = (space_size - len(vminus   ))*" "
 
-    sys.stdout.write('{}{}{}{}{}{}{}{}{}{}{}{}{}\n'.format(x[0], space1, x[1], space2, x[7], space3, x[10], space4,  v0,space5,  vminus,space6 , vplus))
+    sys.stdout.write('{}{}{}{}{}{}{}{}{}{}{}{}{}\n'.format(
+      symbol, space1, site_num, space2, cq, space3, eta, space4,  v0, space5,  vminus,space6 , vplus))
 
   sys.stdout.write("\n\n... bye\n\n")
 
