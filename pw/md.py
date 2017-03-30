@@ -51,6 +51,13 @@ class Md(object):
 
     
   def get_trajectory1(self):
+    """
+    returns trajectory as a list of lists
+    each of which contains the name of the 
+    species and string representations
+    of their positions in the units specified
+    in md output.
+    """
     positions = []
     self.file_array
     inds = [ i for i,x in enumerate(self.file_array) if "ATOMIC" in x ] 
@@ -60,6 +67,18 @@ class Md(object):
     return positions
 
   def get_trajectory2(self):
-    pass
+    """
+    returns trajectory as a list of lists
+    each of which contains on the the 
+    float representations positions of the
+    atomic species
+    """
+    positions = []
+    self.file_array
+    inds = [ i for i,x in enumerate(self.file_array) if "ATOMIC" in x ] 
+    for ind in inds:
+      these_positions = [ list( map( float, line.strip().split()[1:])) for line in self.file_array[ind+1:ind+25] ]
+      positions.append(these_positions)
+    return positions
 
 
