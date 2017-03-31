@@ -3,6 +3,7 @@
 import md as md
 import datafile as d
 import matrix as m
+import matplotlib.pyplot as plt
 
 nat=24
 
@@ -32,9 +33,10 @@ C_ind=2 -1
 distances = []
 for k in range(len(positions)):
   # displacement = Cl_xyz_position - Carbon_xyz_position
-  displacement = latvecs @ positions[k][Cl_ind] latvecs @ positions[k][C_ind]
+  displacement = latvecs @ positions[k][Cl_ind] - latvecs @ positions[k][C_ind]
   distance = m.norm(displacement)
   distances.append(distance)
 
-
+plt.scatter(d.Cl1, distances)
+plt.show()
 
