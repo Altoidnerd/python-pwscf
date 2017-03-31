@@ -29,7 +29,7 @@ positions.pop()
 
 Cl_ind= 1 -1
 C_ind = 2 -1
-C_ind2= 17 -1
+C_ind2= 3 -1
 angles = []
 for k in range(len(positions)):
   # get positions of three atoms in xyz
@@ -41,7 +41,7 @@ for k in range(len(positions)):
   v2 = p3-p2
   dot = v1@v2
   costheta=dot/(m.norm(v1)*m.norm(v2))
-  angle =  nu.arccos(costheta)*180/nu.pi-180 +120 
+  angle =  nu.arccos(costheta)*180/nu.pi-180 
   angles.append(angle)
 
 
