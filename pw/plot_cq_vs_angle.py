@@ -41,11 +41,17 @@ for k in range(len(positions)):
   v2 = p3-p2
   dot = v1@v2
   costheta=dot/(m.norm(v1)*m.norm(v2))
-  angle =  nu.arccos(costheta)*180/nu.pi-180 
+  angle =  nu.arccos(costheta)*180/nu.pi-180+120 
   angles.append(angle)
 
 
-plt.scatter(angles,list(map(abs,d.Cl1)))
+cqs = d.Cl1
+abscqs= list(map(abs, d.Cl1))
+
+a=angles[455:520]
+b=cqs[455:520]
+
+plt.scatter(b,a)
 plt.show()
 
 
