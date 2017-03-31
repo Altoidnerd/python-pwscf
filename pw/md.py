@@ -28,6 +28,7 @@
 
 import sys
 import matplotlib.pyplot as plt
+import numpy as np
 
 class Md(object):
 
@@ -68,8 +69,8 @@ class Md(object):
 
   def get_trajectory2(self):
     """
-    returns trajectory as a list of lists
-    each of which contains on the the 
+    returns trajectory as a list of numpy 
+    arrays each of which contains on the the 
     float representations positions of the
     atomic species
     """
@@ -78,7 +79,7 @@ class Md(object):
     inds = [ i for i,x in enumerate(self.file_array) if "ATOMIC_POSITIONS" in x ] 
     for ind in inds:
       these_positions = [ list( map( float, line.strip().split()[1:])) for line in self.file_array[ind+1:ind+25] ]
-      positions.append(these_positions)
+      positions.append(np.array(these_positions))
     return positions
 
 

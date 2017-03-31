@@ -31,6 +31,16 @@ import numpy.linalg as la
 
 
 ###################
+# basic math tools#
+###################
+
+def norm(arr):
+  sum = 0 
+  for i in arr:
+    sum += float(i)**2
+  return sum**.5
+
+###################
 # scf.in parsiing #
 ###################
 
