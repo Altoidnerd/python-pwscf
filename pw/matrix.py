@@ -40,6 +40,19 @@ def norm(arr):
     sum += float(i)**2
   return sum**.5
 
+
+# you need to pass it numpy arrays
+# which is natural if you already
+# transformed the coordinates with
+# the lattice vectors
+# ... returns in degrees
+def angle(p1,p2,p3):
+  v1=p2-p1
+  v2=p3-p2
+  dot = v1@v2
+  costheta = dot/(norm(v1)*norm(v2))
+  return np.arccos(costheta)*180/np.pi-180
+
 ###################
 # scf.in parsiing #
 ###################
