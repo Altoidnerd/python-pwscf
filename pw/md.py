@@ -60,7 +60,7 @@ class Md(object):
     """
     positions = []
     self.file_array
-    inds = [ i for i,x in enumerate(self.file_array) if "ATOMIC" in x ] 
+    inds = [ i for i,x in enumerate(self.file_array) if "ATOMIC_POSITIONS" in x ] 
     for ind in inds:
       these_positions = [ line.strip().split() for line in self.file_array[ind+1:ind+25] ]
       positions.append(these_positions)
@@ -75,7 +75,7 @@ class Md(object):
     """
     positions = []
     self.file_array
-    inds = [ i for i,x in enumerate(self.file_array) if "ATOMIC" in x ] 
+    inds = [ i for i,x in enumerate(self.file_array) if "ATOMIC_POSITIONS" in x ] 
     for ind in inds:
       these_positions = [ list( map( float, line.strip().split()[1:])) for line in self.file_array[ind+1:ind+25] ]
       positions.append(these_positions)
