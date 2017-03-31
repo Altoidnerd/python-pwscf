@@ -1,4 +1,15 @@
 #!/usr/bin/env python3
+#
+#  the point of this script
+#  is to fix the issue of
+#  loading md pwo files in xcrysden
+#  that is caused by a collision of
+#  regular expression "Cartesian axes"
+#  in the awk script that runs upon
+#  init of xcrysden
+#
+
+
 
 import sys
 import os
