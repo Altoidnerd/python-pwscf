@@ -18,7 +18,7 @@ if len(sys.argv) > 1:
 # We attempt to roate the molcule to correct orientation
 # by roating the molecule about the z axis
  
-x = md.Md('best.origin.ang.pwi')
+x = md.Md('best.origin.crystal.works.pwi')
 
 pos = x.get_trajectory2()[0]
 
