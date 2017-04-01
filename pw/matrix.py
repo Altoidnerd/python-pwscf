@@ -41,17 +41,103 @@ def norm(arr):
   return sum**.5
 
 
-# you need to pass it numpy arrays
-# which is natural if you already
-# transformed the coordinates with
-# the lattice vectors
-# ... returns in degrees
-def angle(p1,p2,p3):
+def angle3(p1,p2,p3):
+  """
+  Returns the bond angle corresponding
+  to three atomic positions.
+  You need to pass it numpy arrays
+  which is natural if you already
+  transformed the coordinates with
+  the lattice vectors
+  ... returns in degrees
+  """
   v1=p2-p1
   v2=p3-p2
   dot = v1@v2
   costheta = dot/(norm(v1)*norm(v2))
   return np.arccos(costheta)*180/np.pi-180
+
+def angle2(r1,r2):
+  """
+  Returns the angle between
+  two vectors.  Pass numpy
+  arrays.
+  ... returns in RADIANS
+  """
+  dot = r1@r2
+  costheta = dot/(norm(r1)*norm(r2))
+  return np.arccos(costheta)
+
+def rotx(theta):
+  """
+  Returns a rotations matrix
+  that rotates a vector by an
+  angle theta about the x-axis.
+  """
+  cos = np.cos
+  sin = np.sin
+  rotmat = []
+  r1 = [      1    ,      0    ,     0     ]
+  r2 = [      0    , cos(theta),-sin(theta)]
+  r3 = [      0    , sin(theta), cos(theta)]
+  rows=[r1,r2,r3]
+  
+  for row in rows:
+    rotmat.append(np.array(row))
+  
+  return rotmat
+
+
+def roty(theta):
+  """
+  Returns a rotations matrix
+  that rotates a vector by an
+  angle theta about the y-axis.
+  """
+  cos = np.cos
+  sin = np.sin
+  rotmat = []
+  r1 = [ cos(theta),    0    , sin(theta)]
+  r2 = [      0    ,    1    ,     0     ]
+  r3 = [-sin(theta),    0    , cos(theta)]
+  rows=[r1,r2,r3]
+  
+  for row in rows:
+    rotmat.append(np.array(row))
+  
+  return rotmat
+
+def rotz(theta):
+  """
+  Returns a rotations matrix
+  that rotates a vector by an
+  angle theta about the z-axis.
+  """
+  cos = np.cos
+  sin = np.sin
+  rotmat = []
+  r1 = [ cos(theta),-sin(theta),    0    ]
+  r2 = [ sin(theta), cos(theta),    0    ]
+  r3 = [      0    ,      0    ,    1    ]
+  rows=[r1,r2,r3]
+  for row in rows:
+    rotmat.append(np.array(row))
+  
+  return rotmat
+
+# for testing
+# unit vectors
+xhat=np.array([1,0,0])
+yhat=np.array([0,1,0])
+zhat=np.array([0,0,1])
+# common angles
+t0  =2*np.pi
+t30 = np.pi/6
+t60 = np.pi/3
+t90 =  np.pi/2
+t180=  np.pi
+t270=3*np.pi/2
+t360=t0
 
 ###################
 # scf.in parsiing #
