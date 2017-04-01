@@ -49,8 +49,10 @@ class Md(object):
   def __init__(self, infile):
     self.infile = infile
     self.file_array = open(infile, 'r').readlines()
-    
-    
+    # ascertain nat
+    nat = [ line for line in self.file_array if 'nat' in line ][0]
+    self.nat = int(nat.strip().replace('nat=',''))
+
   def __repr__(self):
     return "<infile:{}  length:{} lines>".format(self.infile, len(self.file_array))
 
@@ -77,7 +79,7 @@ class Md(object):
     self.file_array
     inds = [ i for i,x in enumerate(self.file_array) if "ATOMIC_POSITIONS" in x ] 
     for ind in inds:
-      these_positions = [ line.strip().split() for line in self.file_array[ind+1:ind+25] ]
+      these_positions = [ line.strip().split() for line in self.file_array[ind+1:ind+nat+1] ]
       positions.append(these_positions)
     return positions
 
@@ -92,7 +94,7 @@ class Md(object):
     self.file_array
     inds = [ i for i,x in enumerate(self.file_array) if "ATOMIC_POSITIONS" in x ] 
     for ind in inds:
-      these_positions = [ list( map( float, line.strip().split()[1:])) for line in self.file_array[ind+1:ind+25] ]
+      these_positions = [ list( map( float, line.strip().split()[1:])) for line in self.file_array[ind+1:ind+self.nat] ]
       positions.append(np.array(these_positions))
     return positions
 
@@ -115,6 +117,7 @@ class Md(object):
     params = []
     c = cell_params_start
     self.latvecs = np.array([ line.split() for line in pwi[c+1:c+4] ], float).T
+    self.inv_latvecs = np.linalg.inv(self.latvecs)
     return self.latvecs
 
     
