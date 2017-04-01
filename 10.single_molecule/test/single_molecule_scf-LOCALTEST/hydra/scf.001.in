@@ -1,0 +1,60 @@
+    &CONTROL 
+calculation ='scf'
+title='pcl2b-pbe-scf-kp-111-ec-60-default-conv-thr'
+prefix='001'
+pseudo_dir = '/users/majewski/.data/PSEUDOPOTENTIALS'
+outdir='./scratch/'
+verbosity='high'
+tstress=.true.
+tprnfor = .true.
+!forc_conv_thr=1.0d-4
+nstep=200
+/
+    &SYSTEM 
+ibrav=0
+celldm(1)=1.889726
+nat=12
+ntyp=3 
+ecutwfc=60
+ecutrho=600
+/ 
+    &ELECTRONS
+mixing_beta=0.7
+!conv_thr =  1.0d-4
+electron_maxstep=200
+/
+   &IONS
+trust_radius_max=0.2
+/
+    &CELL
+cell_dynamics='bfgs'
+/
+
+ATOMIC_SPECIES
+C    12.0110   C.pbe-n-kjpaw_psl.1.0.0.UPF
+Cl   35.4527  Cl.pbe-n-kjpaw_psl.1.0.0.UPF
+H    1.0079    H.pbe-kjpaw_psl.1.0.0.UPF
+
+CELL_PARAMETERS (alat) 
+  20.000000000    0.0000000000    0.0000000000
+   0.000000000   20.0000000000    0.0000000000
+   0.000000000    0.0000000000   20.0000000000
+
+ATOMIC_POSITIONS (crystal)
+C     0.50029811  0.49912275  0.43101635
+C     0.50015863  0.56029247  0.46437584
+C     0.49986178  0.56119159  0.53405942
+C     0.49970189  0.50087725  0.56898365
+C     0.49984137  0.43970753  0.53562416
+C     0.50013822  0.43880841  0.46594058
+H     0.50053083  0.60706304  0.43655014
+H     0.50003945  0.60872864  0.56055585
+H     0.49946917  0.39293696  0.56344986
+H     0.49996055  0.39127137  0.43944415
+Cl    0.50065351  0.49797664  0.34377231
+Cl    0.49934649  0.50202336  0.65622769
+
+K_POINTS automatic
+1 1 1 1 1 1
+
+

@@ -98,20 +98,6 @@ class Md(object):
       positions.append(np.array(these_positions))
     return positions
 
-  def get_trajectory3(self):
-    """
-    returns trajectory as a list of lists 
-    each of which contains on the the 
-    float representations positions of the
-    atomic species
-    """
-    positions = []
-    self.file_array
-    inds = [ i for i,x in enumerate(self.file_array) if "ATOMIC_POSITIONS" in x ] 
-    for ind in inds:
-      these_positions = [ list( map( float, line.strip().split()[1:])) for line in self.file_array[ind+1:ind+self.nat+1] ]
-      positions.append(these_positions)
-    return positions
 
   def get_pwi_latvecs(self, pwi_file=None):
     """
