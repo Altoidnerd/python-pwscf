@@ -120,4 +120,10 @@ class Md(object):
     self.inv_latvecs = np.linalg.inv(self.latvecs)
     return self.latvecs
 
-    
+   
+
+
+  def pprint_coors(self,positions):
+    pos = positions
+    for i in pos:
+      print('C    '+str(i).strip('[]').replace('  ','    ').replace(' -','   '))     
