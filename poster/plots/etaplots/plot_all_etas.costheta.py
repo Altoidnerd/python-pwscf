@@ -34,24 +34,32 @@ etas_yhet = [ float( line.strip() ) for line in etas_yhet ]
 
 # angles in deg
 angles = range(46)
+dangles = angles
+# in radians
+rangles = [ i*np.pi/180 for i in dangles ]
+# square angles
+sangles = [ t**2 for t in rangles ]
+# cosines
+cosangles = [ np.cos(t) for t in rangles ]
+cos2angles =[ x**2 for x in cosangles ]
+# 3 cos squared theta minus one all over two
+cotmoot = [ (3*(np.cos(t))**2 -1 )/2 for t in rangles ]
 
-#plt.scatter(angles, cqs_xcis, color='r', label='in-plane, boat-mode ', marker='^',s=9 )
-#plt.scatter(angles, cqs_xhet, color='b', label='in-plane, chair-mode', marker='s',s=9 )
 
-plt.scatter(angles, etas_ycis, color='r', label='in-plane, boat-mode ', marker='^',s=9 )
-plt.scatter(angles, etas_yhet, color='b', label='in-plane, chair-mode', marker='s',s=9 )
-
-
-  #plt.scatter(ecut, etas_pbe_n,  color='g', marker='o', s=65, label='GGA: Cl.pbe-n-kjpaw_psl.1.0.0.UPF')
-  #plt.scatter(ecut, etas_pz_nl,  color='r', marker='^', s=65, label='LDA: Cl.pz-nl-kjpaw_psl.1.0.0.UPF')
-  #plt.scatter(ecut, etas_pz_n,   color='k', marker='<', s=65, label='LDA: Cl.pz-n-kjpaw_psl.1.0.0.UPF')
-  #plt.plot(ecut, etas)
+plt.scatter(cosangles, etas_xcis, color='r', label='in-plane, boat-mode (asymmetric)', marker='^',s=20 )
+plt.scatter(cosangles, etas_xhet, color='b', label='in-plane, chair-mode (symmetric)', marker=',',s=20 )
+plt.scatter(cosangles, etas_yhet, color='g', label='out-of plane, chair-mode ',        marker='s',s=20 )
+plt.scatter(cosangles, etas_ycis, color='k', label='out-of plane, boat-mode  ',        marker='o',s=20 )
+#plt.scatter(angles, etas_xcis, color='r', label='in-plane, boat-mode ("x-cis")', marker='^',s=15 )
+#plt.scatter(angles, etas_xhet, color='b', label='in-plane, chair-mode ("x-het")', marker='s',s=15 )
+#plt.scatter(angles, etas_yhet, color='g', label='out-of plane, chair-mode ("y-het")', marker='s',s=15 )
+#plt.scatter(angles, etas_ycis, color='k', label='out-of plane, boat-mode ("y-cis")', marker='s',s=15 )
 
 plt.title('Motional effects on Cl asymmetry parameter in C6H4Cl2 molecule')
 plt.ylabel("Cl coupling constant")
-plt.xlabel("Angle theta_y (deg)")
+plt.xlabel("theta_x^2 or theta_y^2 rad^2")
 
-plt.legend(loc=4)
+plt.legend(loc=2)
 plt.show()  
   
 

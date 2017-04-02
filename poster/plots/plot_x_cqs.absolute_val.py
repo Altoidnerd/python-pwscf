@@ -10,37 +10,28 @@ mistake = 8.165/8.065
 
 cqs_xcis = open('Cl12_cq_xcis','r').readlines()
 cqs_xcis = [ mistake*float( line.strip() ) for line in cqs_xcis ]
+cqs_xcis_abs = list( map( abs, cqs_xcis))
 
 etas_xcis = open('Cl12_eta_xcis','r').readlines()
 etas_xcis = [ float( line.strip() ) for line in etas_xcis ]
 
 cqs_xhet = open('Cl12_cq_xhet','r').readlines()
 cqs_xhet = [ mistake*float( line.strip() ) for line in cqs_xhet ]
+cqs_xhet_abs = list( map( abs, cqs_xhet))
+
 
 etas_xhet = open('Cl12_eta_xhet','r').readlines()
 etas_xhet = [ float( line.strip() ) for line in etas_xhet ]
 
-cqs_yhet = open('Cl12_cq_yhet','r').readlines()
-cqs_yhet = [ mistake*float( line.strip() ) for line in cqs_yhet ]
-
-etas_yhet = open('Cl12_eta_yhet','r').readlines()
-etas_yhet = [ float( line.strip() ) for line in etas_yhet ]
-
-cqs_ycis = open('Cl12_cq_ycis','r').readlines()
-cqs_ycis = [ mistake*float( line.strip() ) for line in cqs_ycis ]
-
-etas_ycis = open('Cl12_eta_ycis','r').readlines()
-etas_ycis = [ float( line.strip() ) for line in etas_ycis ]
 
 # angles in deg
 angles = range(46)
-sangles = [ (i*np.pi/180)**2 for i in angles ]
 
-#plt.scatter(sangles, cqs_xcis, color='r', label='in-plane, boat-mode ("x-cis")', marker='^',s=9 )
-#plt.scatter(sangles, cqs_xhet, color='b', label='in-plane, chair-mode ("x-het")', marker='s',s=9 )
-plt.scatter(sangles, cqs_yhet, color='g', label='out-of plane, chair-mode ("y-het")', marker='s',s=9 )
-plt.scatter(sangles, cqs_ycis, color='k', label='out-of plane, boat-mode ("y-cis")', marker='s',s=9 )
+#plt.scatter(angles, cqs_xcis, color='r', label='in-plane, boat-mode ', marker='^',s=9 )
+#plt.scatter(angles, cqs_xhet, color='b', label='in-plane, chair-mode', marker='s',s=9 )
 
+plt.scatter(angles, cqs_xcis_abs, color='r', label='in-plane, boat-mode ', marker='^',s=9 )
+plt.scatter(angles, cqs_xhet_abs, color='b', label='in-plane, chair-mode', marker='s',s=9 )
 
 
   #plt.scatter(ecut, etas_pbe_n,  color='g', marker='o', s=65, label='GGA: Cl.pbe-n-kjpaw_psl.1.0.0.UPF')
@@ -50,9 +41,9 @@ plt.scatter(sangles, cqs_ycis, color='k', label='out-of plane, boat-mode ("y-cis
 
 plt.title('Motional effects on Cl coupling constant in C6H4Cl2 molecule')
 plt.ylabel("Cl coupling constant")
-plt.xlabel("theta_y^2 (rad^2)")
+plt.xlabel("Angle theta_x (deg)")
 
-plt.legend(loc=3)
+plt.legend(loc=4)
 plt.show()  
   
 

@@ -34,12 +34,21 @@ etas_ycis = [ float( line.strip() ) for line in etas_ycis ]
 
 # angles in deg
 angles = range(46)
-sangles = [ (i*np.pi/180)**2 for i in angles ]
+dangles = angles
+# in radians
+rangles = [ i*np.pi/180 for i in dangles ]
+# square angles
+sangles = [ t**2 for t in rangles ]
+# cosines
+cosangles = [ np.cos(t) for t in rangles ]
+cos2angles =[ x**2 for x in cosangles ]
+# 3 cos squared theta minus one all over two
+cotmoot = [ (3*(np.cos(t))**2 -1 )/2 for t in rangles ]
 
-#plt.scatter(sangles, cqs_xcis, color='r', label='in-plane, boat-mode ("x-cis")', marker='^',s=9 )
-#plt.scatter(sangles, cqs_xhet, color='b', label='in-plane, chair-mode ("x-het")', marker='s',s=9 )
-plt.scatter(sangles, cqs_yhet, color='g', label='out-of plane, chair-mode ("y-het")', marker='s',s=9 )
-plt.scatter(sangles, cqs_ycis, color='k', label='out-of plane, boat-mode ("y-cis")', marker='s',s=9 )
+plt.scatter(sangles, cqs_xcis, color='r', label='in-plane, boat-mode', marker='^',s=20 )
+#plt.scatter(angles, cqs_xhet, color='b', label='in-plane, chair-mode ("x-het")', marker='s',s=9 )
+#plt.scatter(angles, cqs_yhet, color='g', label='out-of plane, chair-mode ("y-het")', marker='s',s=9 )
+plt.scatter(sangles, cqs_ycis, color='k', label='out-of plane, boat-mode', marker='s',s=20 )
 
 
 
@@ -48,9 +57,9 @@ plt.scatter(sangles, cqs_ycis, color='k', label='out-of plane, boat-mode ("y-cis
   #plt.scatter(ecut, etas_pz_n,   color='k', marker='<', s=65, label='LDA: Cl.pz-n-kjpaw_psl.1.0.0.UPF')
   #plt.plot(ecut, etas)
 
-plt.title('Motional effects on Cl coupling constant in C6H4Cl2 molecule')
+plt.title('Cl coupling constant in C6H4Cl2 molecule vs angular displacement squared')
 plt.ylabel("Cl coupling constant")
-plt.xlabel("theta_y^2 (rad^2)")
+plt.xlabel("theta_x^2 or theta_y^2, rad^2")
 
 plt.legend(loc=3)
 plt.show()  
@@ -59,6 +68,7 @@ plt.show()
 
   #plt.ylim(ymin=-547.5)
   #plt.savefig("nqr-freqs-rolling-dt{}-nstep{}-nefgstep{}-nosym-ecut100.pdf".format(dt, nstep, nefgstep))
+
 
 
 
