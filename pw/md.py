@@ -29,12 +29,12 @@
 import sys
 import matplotlib.pyplot as plt
 import numpy as np
-
+import matrix
 
 
 class Md(object):
   """
-  Ppens a pwo file of an md run,
+  Opens a pwo file of an md run,
   parses the file, and can return
   various parameters.
   Use matrix module to load
@@ -46,15 +46,19 @@ class Md(object):
   molecule1 = [2,  3,  5, 17, 16, 14,  4,  6, 15, 13,  1, 18]
   molecule2 = [23, 8, 10, 11, 20, 22,  7,  9, 19, 21, 24, 12]
   
-  def __init__(self, infile):
-    self.infile = infile
-    self.file_array = open(infile, 'r').readlines()
+  def __init__(self, pwifile, pwofile):
+    self.pwifile = pwifile
+    self.pwifile_array = open(pwifile, 'r').readlines()
+    self.pwofile = pwofile
+    self.pwofile_array = open(pwofile, 'r').readlines()
+    self.file_array = self.pwifile_array + self.pwofile_array
     # ascertain nat
     nat = [ line for line in self.file_array if 'nat' in line ][0]
     self.nat = int(nat.strip().replace('nat=',''))
 
+
   def __repr__(self):
-    return "<infile:{}  length:{} lines>".format(self.infile, len(self.file_array))
+    return "<pwifile: {}\tlength: {} lines\npwofile: {}\tlength: {} lines>".format(self.pwifile, len(self.pwifile_array), self.pwofile, len(self.pwofile_array))
 
   def __str__(self):
     s = ""
@@ -79,7 +83,7 @@ class Md(object):
     self.file_array
     inds = [ i for i,x in enumerate(self.file_array) if "ATOMIC_POSITIONS" in x ] 
     for ind in inds:
-      these_positions = [ line.strip().split() for line in self.file_array[ind+1:ind+self.nat+1] ]
+      these_positions = [ line.strip() for line in self.file_array[ind+1:ind+self.nat+1] ]
       positions.append(these_positions)
     return positions
 
@@ -120,9 +124,9 @@ class Md(object):
     <alat_coordinates> = latvecs @ <crystal coordinates>
     """
     if pwi_file is None:
-      print("ERROR: you must specify a pwi file with CELL_PARAMETERS.")
-      return 0
-    pwi = open(pwi_file, 'r').readlines()
+      pwi = self.pwifile_array
+    else:
+      pwi = open(pwi_file, 'r').readlines()
   
     cell_params_start = min( 
       [ pwi.index(line) for line in pwi 
@@ -134,10 +138,30 @@ class Md(object):
     self.inv_latvecs = np.linalg.inv(self.latvecs)
     return self.latvecs
 
-   
 
 
   def pprint_coors(self,positions):
     pos = positions
     for i in pos:
-      print('C    '+str(i).strip('[]').replace('  ','    ').replace(' -','   '))     
+      print('C    '+str(i).strip('[]').replace('  ','    ').replace(' -','   '))    
+
+
+
+def get_string(positions):
+  pos = positions
+  for i in pos:
+    return 'C    '+str(i).strip('[]').replace('  ','    ').replace(' -','   ')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
