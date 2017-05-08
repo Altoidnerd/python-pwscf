@@ -1,41 +1,40 @@
 #!/usr/bin/env python3
-
 #
+#
+# This script will rip the ith positions 
+# out of an md run and place them into 
+# individual scf.$i.in files 
 # 
-# 
-# 
-# 
-# 
-# 
+#
 
 import md as md
 import numpy as np
+import os
 
 fstring="""
     &CONTROL
-calculation  ='scf'
-restart_mode ='from_scratch'
+calculation  = 'scf'
+restart_mode = 'from_scratch'
 prefix       ='scf-{}'
 pseudo_dir   ='/global/cscratch1/sd/almno10/.data/PSEUDOPOTENTIALS'
-outdir       ='./scratch/'
-dt           = 20
+outdir       ='./scratch'
+dt           = 60
 tstress      =.false.
 tprnfor      =.true.
 !forc_conv_thr=1.0d-4
 verbosity    = 'high'
-nstep        = 525
-max_seconds  = 126000
+nstep        = 2000
 /
 
 &system
     ibrav=0
     celldm(1)=1.889726
-    nat=56
-    ntyp=4
+    nat=24
+    ntyp=3
     ecutwfc=100
     ecutrho=1000
-    spline_ps=.true.
-    nosym=.true.
+!   spline_ps=.true.
+!   nosym=.true.
 /
 
 &electrons
@@ -69,8 +68,8 @@ max_seconds  = 126000
 
 
 &ions
-    ion_dynamics      = 'verlet'
-    ion_positions     = 'default'
+!   ion_dynamics      = 'verlet'
+!   ion_positions     = 'default'
 !   pot_extrapolation = 'atomic'
 !   wfc_extrapolation = 'none'
 !   remove_rigid_rot  = .false.
@@ -79,7 +78,7 @@ max_seconds  = 126000
 !    !!!Molecular Dynamics only!!!         -
 !-------------------------------------------
     ion_temperature   = 'initial'
-    tempw             = 123
+    tempw             = 586.D0
     tolp              = 100.D0
     delta_t           = 1.D0
     nraise            = 1
@@ -89,9 +88,9 @@ max_seconds  = 126000
 !------------------------------------------
 !   upscale           = 100.D0
 !   bfgs_ndim         = 1
-    trust_radius_max  = 0.8D0
-    trust_radius_min  = 1.D-3
-    trust_radius_ini  = 0.5D0
+!   trust_radius_max  = 0.8D0
+!   trust_radius_min  = 1.D-3
+!   trust_radius_ini  = 0.5D0
 
 !   w_1               = 0.01D0
 !   w_2               = 0.5D0
@@ -111,21 +110,20 @@ max_seconds  = 126000
 /
 
 ATOMIC_SPECIES
-  N  14.0067  N.pbe-n-kjpaw_psl.1.0.0.UPF
-  C  12.0110  C.pbe-n-kjpaw_psl.1.0.0.UPF
-  H   1.0079  H.pbe-kjpaw_psl.1.0.0.UPF
-  O  15.9994  O.pbe-n-kjpaw_psl.1.0.0.UPF
+C    12.0110   C.pbe-n-kjpaw_psl.1.0.0.UPF
+Cl   35.4527  Cl.pbe-n-kjpaw_psl.1.0.0.UPF
+H    1.0079    H.pbe-kjpaw_psl.1.0.0.UPF
 
 CELL_PARAMETERS (alat)
-   6.5250000000    0.0000000000    0.0000000000
-   0.0000000000   10.8400000000    0.0000000000
-  -1.5559110639    0.0000000000    7.1534459704
+  14.7620000000    0.0000000000    0.0000000000
+   0.0000000000    5.8320000000    0.0000000000
+  -1.5638756447    0.0000000000    3.7239513917
 
 ATOMIC_POSITIONS (crystal)
 {}
 
 K_POINTS automatic
-4 2 4 1 1 1
+2 4 4 1 1 1
 """
 
 
@@ -133,6 +131,10 @@ K_POINTS automatic
 
 def main():
   dest_dir='./scfs'
+  try:
+    os.mkdir(dest_dir)
+  except FileExistsError:
+      pass
   x=md.Md('md.in','md.out')
   traj = x.get_trajectory1()
   for i in range(len(traj)):
@@ -148,4 +150,3 @@ def main():
 if __name__ == '__main__':
   main()
 
-    
