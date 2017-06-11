@@ -19,7 +19,7 @@ from plot_funcs import *
 ########################################################
 
 
-dt=10
+dt=60
 scale_factor = 1.0
 ry_atomic_time=4.8378e-17 #seconds per a.u.
 timestep_SI = dt*ry_atomic_time
@@ -40,7 +40,7 @@ norm_Etots = [ thing/Etots[0] for thing in Etots ]
 diff_Etots = [ thing - Etots[0] for thing in Etots ]
 diff_Etots_scaled = [ scale_factor*(thing - Etots[0]) for thing in Etots ]
 average_temp = get_mean(temperatures)
-efg_step_0 = 6
+efg_step_0 = 3
 nefgstep = len(Cl1)
 inds = range(len(Ekins))
 efg_inds = range(efg_step_0, efg_step_0 + len(Cl1)) 
@@ -107,7 +107,7 @@ def main():
   #plt.scatter(ecut, etas_pz_n,   color='k', marker='<', s=65, label='LDA: Cl.pz-n-kjpaw_psl.1.0.0.UPF')
   #plt.plot(ecut, etas)
 
-  plt.title("p-Cl_2-benzene MD, tempw={}K, dt={} a.u., nstep={}, T_avg={}K".format(tempw, dt, nefgstep,  get_mean(temperatures)))
+  plt.title("Constrained p-Cl_2-benzene MD, H-bondlength frozen\n tempw={}K, dt={} a.u., nstep={}, T_avg={}K".format(tempw, dt, nefgstep,  get_mean(temperatures)))
   plt.ylabel("35Cl quadrupole coupling constant (MHz)")
   plt.xlabel("simulation step (dt = {} a.u./step) \n{} total steps; {} a.u. =  {} s/step; {}s total time".format(dt, nefgstep, dt, dt*ry_atomic_time, nefgstep*dt*ry_atomic_time))
 
@@ -117,7 +117,7 @@ def main():
   plt.legend(loc=3)
   plt.savefig("cqs-rolling-dt{}-nstep{}-nefgstep{}-nosym-ecut100.pdf".format(dt, nstep, nefgstep))
   #plt.ylim(ymin=-547.5)
-
+  plt.xlim(xmin=-25, xmax=2050)
   plt.show()  
 
 
@@ -127,3 +127,4 @@ if __name__ == '__main__':
   main()
 
 
+  plt.xlim(xmin=-25, xmax=2050)
