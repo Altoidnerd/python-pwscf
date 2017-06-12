@@ -339,28 +339,19 @@ def get_efgs_dict(magres_file=None, nat=24):
  
     mygenvecs = data[1].T
     lmygenvecs = mygenvecs.tolist()
-
-   # print(lmygenvecs)
-
+    
     if vzzpm in data[0]:
       VZZ = vzzpm
     else: 
       VZZ = -vzzpm
-
     if vyypm in data[0]:
       VYY = vyypm 
     else:
       VYY = -vyypm
-
     if vxxpm in data[0]:
       VXX = vxxpm 
     else:
       VXX = -vxxpm
-
-
-    #print("VXX:",VXX)
-    #print("VYY:", VYY)
-    #print("VZZ",VZZ)
   
     efgs_dict[k]['Vzz'] = VZZ
     efgs_dict[k]['Vyy'] = VYY
@@ -372,7 +363,7 @@ def get_efgs_dict(magres_file=None, nat=24):
     efgs_dict[k]['x-axis'] = lmygenvecs[lmygenvals.index(VXX)]
  
 
-   return efgs_dict  
+  return efgs_dict  
 
 
 
