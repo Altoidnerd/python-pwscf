@@ -427,3 +427,62 @@ def sanitize_ends(s, targets=' \n\tabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRS
   return s
 
 
+
+
+#################################
+#				#
+#	crystal CIF parsing   	#
+#				#
+#################################
+
+def get_cif_cell_params(cif_infile, *args):
+  """
+  Returns a dict of keys in *args
+  and associated values from the
+  specified cif infile
+  """
+  f = open(cif_infile,'r').readlines()
+  d=dict()
+  for word in args:
+    #print(word)
+    good_lines = [ line.strip() for line in f if word in line]
+    #print(good_lines)
+    data = []
+    for line in good_lines:
+      data.append(line.split()[-1])
+    if len(data) == 1:
+      d[word] = data[0]
+    else:
+      d[word] = data
+    for line in good_lines:
+      d[line.split()[0]] = line.split()[1]
+  return d 
+
+
+def get_monoclinic_P_latvecs(a,b,c,beta):
+  """
+  Takes as argument a,b,c, beta
+  and produces an array of lattice
+  vectors
+
+  get_monoclinic_P_latvecs(a, b, c, beta)
+	-> np.array([ v1, v2, v3 ])
+  
+  ... 
+  
+  From PW_INPUT.html:
+  -12         	Monoclinic P, unique axis b     
+		celldm(2)=b/a
+ 		celldm(3)=c/a,
+             	celldm(5)=cos(ac)
+      v1 = (a,0,0), v2 = (0,b,0), v3 = (c*cos(beta),0,c*sin(beta))
+      where beta is the angle between axis a and c
+  
+
+  """
+  v1 	=  [a,0,0]
+  v2 	=  [0,b,0] 
+  v3 	=  [c*np.cos(beta),0,c*np.sin(beta)]
+  
+  return np.array([v1,v2,v3])
+
