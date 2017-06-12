@@ -305,28 +305,24 @@ def eigenmachine(magres_file=None):
   return la.eigh(get_efg_tensors(magres_file)[1:])
 
     
-
-
-
-
-####################
-# efg.out parsing  #
-####################
-
-def eigvals(tensor):
-  return la.eigh( tensor )[0]
-
-def eigvecs(tensor):
-  return la.eigh( tensor )[1]
-
-def get_efgs_dict(magres_file=None):
+def get_efgs_dict(magres_file=None, nat=24):
+  """
+  get_efgs_dict('infile')
+     -> dict(k,v) where k is an int
+      atom index e.g. 1, 2, 3
+      and v is a dict of
+      efg tensor parameters
+   specify option getlist=True
+   to return a list instead
+  """
+  
   efgs_dict = dict()
-  for i in range(1, 25):
+  for i in range(1, nat+1):
     efgs_dict[i] = dict()
 
-  spec_data = [[]] + [ la.eigh(get_efg_tensors()[k]) for k in range(1,25) ]
+  spec_data = [[]] + [ la.eigh(get_efg_tensors(magres_file)[k]) for k in range(1,nat+1) ]
 
-  for k in range(1,25):
+  for k in range(1,nat+1):
     tmpdict = dict()
     data = spec_data[k]
  
@@ -375,7 +371,21 @@ def get_efgs_dict(magres_file=None):
     efgs_dict[k]['y-axis'] = lmygenvecs[lmygenvals.index(VYY)]
     efgs_dict[k]['x-axis'] = lmygenvecs[lmygenvals.index(VXX)]
  
-  return efgs_dict  
+
+   return efgs_dict  
+
+
+
+
+####################
+# efg.out parsing  #
+####################
+
+def eigvals(tensor):
+  return la.eigh( tensor )[0]
+
+def eigvecs(tensor):
+  return la.eigh( tensor )[1]
 
 
 
