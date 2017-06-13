@@ -366,17 +366,105 @@ def get_efgs_dict(magres_file=None, nat=24):
   return efgs_dict  
 
 
-
-
 ####################
 # efg.out parsing  #
 ####################
 
-def eigvals(tensor):
-  return la.eigh( tensor )[0]
 
-def eigvecs(tensor):
-  return la.eigh( tensor )[1]
+
+def get_axes(infile, kw=None, ref=None):
+  """
+  get_axes('efg.*.out', kw=None) -> array-like
+  argument is an efg output file
+  kawrg "kw" specifies which species to display
+  kw defaults to 'Cl   1'
+  
+  e.g. kw -> 'Cl  18'
+  Returns an array containing the
+  primed principal axes components.
+  Override the default keyword
+  using the kw argument.
+  
+  The function returns the axes that are pre-
+  computed by QE, though some attempt is made
+  to correct algebraic sign instability.
+  
+  if kawrg 'ref' is specified, the sign conventions
+  follow from those of the specie 'ref'
+ 
+  example2:
+
+  > get_axes(infile)[0] <- 'x-axis'
+  > get_axes(infile)[1] <- 'y-axis'
+  > get_axes(infile)[2] <- 'z-axis'
+  
+  example2:
+
+  > get_axes(infile, kw='Cl  18', ref='Cl   1')[0] <- 'x-axis'
+  > get_axes(infile, kw='Cl  18', ref='Cl   1')[0] <- 'y-axis'
+  > get_axes(infile, kw='Cl  18', ref='Cl   1')[0] <- 'z-axis'
+
+  """
+  ########    DEFAULTS: Cl   1 ###################################
+  #  								 #
+  #Vxx, X =-1.6267, np.array([ -0.310418, -0.435918,  0.844758 ])#
+  #Vyy, Y =-1.9819, np.array([  0.522549,  0.664099,  0.534711 ])# 
+  #Vzz, Z = 3.6086, np.array([ -0.794093,  0.607411,  0.021640 ])#
+  #keyword = 'Cl   1'						 #
+  ################################################################
+  if kw is None:
+    kw = 'Cl   1'
+    
+  f = open(infile,'r').readlines()
+  relevant = [ line.strip().replace(')','').replace('(','') for line in f if kw in line and 'axis' in line ]
+  axes_list = [ line.split()[5:] for line in relevant ] 
+  axes_list = np.array([ list(map(float, axis)) for axis in axes_list ])
+  # require the same signs as the refernece set of axes
+  if axes_list[0][0] > 0:
+    axes_list[0] = -1*axes_list[0]  
+  if axes_list[1][0] < 0:
+    axes_list[1] = -1*axes_list[1]
+  if axes_list[2][0] > 0:
+    axes_list[2] = -1*axes_list[2]
+  return axes_list
+
+
+
+
+
+
+
+def get_Vijs(infile):
+  f = open(infile,'r').readlines()
+  relevant = [ line.strip().replace(')','').replace('(','') for line in f if kw in line and 'axis' in line ]
+  axes_list = [ line.split()[5:] for line in relevant ] 
+  axes_list = np.array([ list(map(float, axis)) for axis in axes_list ])
+  
+def get_angles(infile, tensor=None):
+  """
+get_angles('efg.*.out') -> array-like
+argument is an efg output file
+
+Returns an array containing the
+euler angles for the given
+EFG principal axes relative 
+to the fixed axes (hard coded).
+
+get_angles(infile)[0] <- theta_X
+get_angles(infile)[1] <- theta_Y
+  """
+  if tensor is None:
+    Vxx, X =-1.6267, np.array([ -0.310418, -0.435918,  0.844758 ])
+    Vyy, Y =-1.9819, np.array([  0.522549,  0.664099,  0.534711 ])   
+    Vzz, Z = 3.6086, np.array([ -0.794093,  0.607411,  0.021640 ])
+
+    
+  this_X = get_axes(infile)[0]
+  this_Y = get_axes(infile)[1]
+  this_Z = get_axes(infile)[2]
+  theta_X = np.arcsin((this_Z@Y)/np.linalg.norm(Y))
+  theta_Y = np.arcsin((this_Z@X)/(np.linalg.norm(X)*np.cos(theta_X)))
+  return np.array( [ theta_X, theta_Y ])
 
 
 
@@ -486,4 +574,5 @@ def get_monoclinic_P_latvecs(a,b,c,beta):
   v3 	=  [c*np.cos(beta),0,c*np.sin(beta)]
   
   return np.array([v1,v2,v3])
+
 

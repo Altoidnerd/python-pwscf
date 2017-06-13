@@ -9,12 +9,7 @@ def help():
 
 
 def show(query):
-  query = str(query)
-  relevant = [ line for line in data if (query in line or query.upper() in line or query.lower() in line) ] 
-  return relevant
-
-
-docstring = """
+  """
   	 data[N].split()[0] = int: atomic number
                         [1] = int: mass
 			[2] = bool: isStable (stable:-, unstable:*)
@@ -23,5 +18,9 @@ docstring = """
 			[5] = float: spin
 			[6] = float: g-factor
  			[7] = float: natural-abundance
-			[8] = float: quadrupole moment
-"""
+  			[8] = float: quadrupole moment
+  """
+  query = str(query)
+  relevant = [ line for line in data if (query in line or query.upper() in line or query.lower() in line) ] 
+  return relevant
+
