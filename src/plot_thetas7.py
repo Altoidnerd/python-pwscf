@@ -87,10 +87,12 @@ def get_primed(cq0=None,et0=None):
   anglediff= avgx_sq - avgy_sq
 
 
-
-  # coefficient is the factor by which Cq is multiplied 
-  # to obtain Cq'
-  # coefficient2
+  #
+  # cq_coefficient  is the factor by which Cq  
+  # is multiplied to obtain Cq';
+  #
+  # eta_coefficient is the factor by which eta 
+  # is multiplied to obtain eta';
   #  
   
   
@@ -98,19 +100,31 @@ def get_primed(cq0=None,et0=None):
   Cqprime 		= cq_coefficient * Cq0
   
 
-  eta_coefficient 	= Cq0/Cqprime*( eta0 - 3/2*anglediff - 1/2*eta0*anglesum + 1/2*( 3-eta0 )*avgx_sq*avgy_sq ) 
-  etaprime 		= eta_coefficient* eta0
+  etaprime 	= Cq0/Cqprime*( eta0 - 3/2*anglediff - 1/2*eta0*anglesum + 1/2*( 3-eta0 )*avgx_sq*avgy_sq ) 
 
   fq0 = f32(Cq0,eta0)
   fqprime = f32(Cqprime,etaprime)
 
-  return {
-		"Cq0":Cq0, 
-		"Cqprime":Cqprime, 
-		"eta0":eta0, 
-		"etaprime":etaprime, 
-		"fq0":fq0, 
-		"fqprime":fqprime
+  return {      
+		"Cq0":		Cq0, 
+		"Cqprime":	Cqprime, 
+		"Cq": 		Cqprime,
+		"eta0":		eta0, 
+		"etaprime":	etaprime, 
+		"eta": 		etaprime,
+		"fq0":		fq0, 
+		"fqprime":	fqprime,
+		"thetax":	avgx,
+		"thetay":	avgy,
+		"thetaxsq":	avgx_sq,
+		"thetaysq":	avgy_sq,
+		"thetax2":	avgx_sq,
+		"thetay2":	avgy_sq,
+		"anglediff":	anglediff,
+		"anglesum":	anglesum,
+		"cq_coef":	cq_coefficient,
+		"eta_coef":	etaprime/eta0
+
 	}
 
 
@@ -135,9 +149,12 @@ def main():
   Cq0  = 69.2296
   eta0 = 0.09844
 
-  # coefficient is the factor by which Cq is multiplied 
-  # to obtain Cq'
-  # coefficient2
+  #
+  # cq_coefficient  is the factor by which Cq  
+  # is multiplied to obtain Cq';
+  #
+  # eta_coefficient is the factor by which eta 
+  # is multiplied to obtain eta';
   #  
   
   
@@ -145,8 +162,8 @@ def main():
   Cqprime 		= cq_coefficient * Cq0
   
 
-  eta_coefficient 	= Cq0/Cqprime*( eta0 - 3/2*anglediff - 1/2*eta0*anglesum + 1/2*( 3-eta0 )*avgx_sq*avgy_sq ) 
-  etaprime 		= eta_coefficient* eta0
+  etaprime 	= Cq0/Cqprime*( eta0 - 3/2*anglediff - 1/2*eta0*anglesum + 1/2*( 3-eta0 )*avgx_sq*avgy_sq ) 
+  eta_coefficient = etaprime/eta0
 
   fq0 = f32(Cq0,eta0)
   fqprime = f32(Cqprime,etaprime)

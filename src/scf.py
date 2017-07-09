@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-
-#!/usr/bin/env python3
-
 #################################################################################
 #										#
 # Copyright (c) 2016 Allen Majewski (altoidnerd)				#
@@ -43,10 +40,10 @@ def filtrByLambda(term, arr):
 filtr=filtrByComp
 
 
-class Efg(object):
+class Scf(object):
   """
-  Class for parsing gipaw.x output files
-  for 'efg' calculation
+  Class for parsing pw.x output files
+  for 'scf' calculation
   """
   # special paradichlorobenzene stuff
 
@@ -54,21 +51,28 @@ class Efg(object):
   molecule1 = [2,  3,  5, 17, 16, 14,  4,  6, 15, 13,  1, 18]
   molecule2 = [23, 8, 10, 11, 20, 22,  7,  9, 19, 21, 24, 12]
   
-  def __init__(self, efgfile):
-    self.efgfile = efgfile
-    self.efgfile_array = open(efgfile, 'r').readlines()
-    self.file_array = self.efgfile_array
-    
+  def __init__(self, pwifile, pwofile):
+    self.pwifile = pwifile
+    self.pwifile_array = open(pwifile, 'r').readlines()
+    self.pwofile = pwofile
+    self.pwofile_array = open(pwofile, 'r').readlines()
+    self.file_array = self.pwifile_array + self.pwofile_array
     # ascertain nat
-    nat = len([ line for line in self.file_array if 'Q=' in line ])
-    self.nat = nat
+    self.nat =     int(filtr('nat'    , self.pwifile_array)[0].strip().replace('nat'    ,'').replace('=',''))
+    self.ecutwfc = int(filtr('ecutwfc', self.pwifile_array)[0].strip().replace('ecutwfc','').reaplce('=',''))
+    self.ecutwfc = int(filtr('ecutrho', self.pwifile_array)[0].strip().replace('ecutrho','').reaplce('=',''))
+    self.total_energies = None
+    self.temperature = None
+     
+   
 
-    self.WALL_TIME = float([ line.split()[4] for line in filtr('WALL',self.file_array) ][-1].replace('s',''))
-    self.CPU_TIME  = float([ line.split()[2] for line in filtr('WALL',self.file_array) ][-1].replace('s',''))
-
+    self.atomic_positions = self.get_atomic_positions()
+    
 
   def __repr__(self):
-    return "< efg object; efgfile: {}\tlength: {} lines >".format(self.efgfile, len(self.efgfile_array))
+    return """<pwifile: {}\tlength: {} lines\npwofile: {}\tlength: {} lines>
+           """.format(self.pwifile, len(self.pwifile_array), self.pwofile, len(self.pwofile_array))
+
 
   def __str__(self):
     s = ""
@@ -80,4 +84,8 @@ class Efg(object):
     for line in self.file_array:
       sys.stdout.write(line)
 
-    
+  def get_atomic_positions(self):
+    ind = self.pwifile_array.index(filtr('POSITIONS', self.pwifile_array)[0]) 
+    positions = self.pwi_file_array[ind+1: ind+self.nat+1]
+    return positions
+     
