@@ -108,7 +108,7 @@ class Efg(object):
     a =  filtr("Q=", self.file_array)
     b =  [ line.strip()[:6] for line in a ]
     return b
-
+ 
 
   @property
   def atomic_species(self):
@@ -118,8 +118,49 @@ class Efg(object):
 
 
   @property
-  def efg_tensors(self, atom=None):
-    pass
+  def total_efg(self, atom=None):
+    begin_on_pattern= '----- total EFG -----'
+    begin_on_index  = self.file_array.index(filtr(begin_on_pattern, self.file_array)[0])
+    end_on_pattern  = '(symmetrized)'
+    end_on_index    = self.file_array.index(filtr(end_on_pattern, self.file_array)[0])
+    begin, end      = begin_on_index, end_on_index 
+    file_slice      = self.file_array[begin+1:end]
+    tensors         = [None]*self.nat
+    labels          = self.atom_labels
+    for i in range(len(labels)):
+      tens = [ lmap( float, thing.split()[2:]) for thing in filtr(self.atom_labels[i], file_slice) ] 
+      tensors[i] = tens
+    return tensors
+    
+
+  @property
+  def symmetrized_efg(self, atom=None):
+    begin_on_pattern= '(symmetrized)'
+    begin_on_index  = self.file_array.index(filtr(begin_on_pattern, self.file_array)[0])
+    end_on_pattern  = 'NQR/NMR SPECTROSCOPIC PARAMETERS'
+    end_on_index    = self.file_array.index(filtr(end_on_pattern, self.file_array)[0])
+    begin, end      = begin_on_index, end_on_index 
+    file_slice      = self.file_array[begin+1:end]
+    tensors         = [None]*self.nat
+    labels          = self.atom_labels
+    for i in range(len(labels)):
+      tens = [ lmap( float, thing.split()[2:]) for thing in filtr(self.atom_labels[i], file_slice) ] 
+      tensors[i] = tens
+    return tensors
+
+  @property
+  def compd_eigvals(self, atom=None, sym=True, herm=False):
+    if sym:
+      efgs = self.symmetrized_efg
+    else:
+      efgs = self.total_efg
+    if not herm:
+      eigfunc = np.linalg.eig
+    else:
+      eigfunc = np.linalg.eigh
+    return [ eigfunc(thing) for thing  in  efgs ]
+
+
 
 
   @property
@@ -139,6 +180,21 @@ class Efg(object):
     return axes
 
 
+  @property
+  def axes(self):
+    axes=[]
+    for i in range(self.nat):
+      label = self.atom_labels[i]
+      vijs = filtr(label, self.file_array)[-4:][:3]
+      Xaxis  = lmap(float, filtr('Vxx', vijs)[0].replace(')','').replace('(','').split()[5:])
+      Yaxis  = lmap(float, filtr('Vyy', vijs)[0].replace(')','').replace('(','').split()[5:])
+      Zaxis  = lmap(float, filtr('Vzz', vijs)[0].replace(')','').replace('(','').split()[5:])
+      ax = []
+      ax.append(Xaxis)
+      ax.append(Yaxis)
+      ax.append(Zaxis)
+      axes.append(ax)
+    return axes
 
   @property
   def Vii(self):
