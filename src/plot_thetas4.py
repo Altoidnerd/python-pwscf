@@ -7,21 +7,48 @@ import matplotlib.pyplot as plt
 
 
 
-def get_all_thetas(limit,sep=1):
+def get_all_thetas(range_like):
+  """
+  get_all_thetas(range_like) -> np.array(
+	[ 
+	list, 
+	list, 
+	list, 
+	list ]
+	)
+	==
+				np.array(
+	[ 
+	THETA_X, 
+	THETA_Y, 
+	THETA_X_SQ,
+	THETA_Y_SQ
+	]
+  
+  Pass the function "range_like", a range object
+  to specify the indices of input files of 
+  format scfs/efg.{}.out.
+  
+  """
+  
   _THETA_X = []
   _THETA_Y = []
 
-  for i in range(limit, sep):
+  for i in range_like:
     infile = 'scfs/efg.{}.out'.format(i)
 
     try:
       _THETA_X.append(get_angles(infile)[0])
+    except FileNotFoundError:
+      pass
     except IndexError:
       pass
-  
+     
 
     try:
       _THETA_Y.append(get_angles(infile)[1])
+    except FileNotFoundError:
+      pass
     except IndexError:
       pass
 
@@ -34,7 +61,7 @@ def get_all_thetas(limit,sep=1):
 
 
 def main():
-  thetas = get_all_thetas(2800,sep=10)
+  thetas = get_all_thetas(range(0,3000,10))
   THETA_X,THETA_Y,THETA_X_SQ,THETA_Y_SQ = thetas[0],thetas[1],thetas[2],thetas[3]
   
 
@@ -76,15 +103,15 @@ def main():
 #### SCATTER PLOT ####
 #
 #
-  plt.scatter(range(ley), THETA_Y, color='g', label='theta_y', marker=',',s=2 )
-  plt.scatter(range(lex), THETA_X , color='r', label='theta_x', marker='.',s=4 )
+#  plt.scatter(range(ley), THETA_Y, color='g', label='theta_y', marker=',',s=2 )
+#  plt.scatter(range(lex), THETA_X , color='r', label='theta_x', marker='.',s=4 )
 #
 ####
 #### LINE PLOT
 #
 #
-#  plt.plot(range(ley), THETA_Y, color='g', label='theta_y' )
-#  plt.plot(range(lex), THETA_X , color='r', label='theta_x')
+  plt.plot(range(ley), THETA_Y, color='g', label='theta_y' )
+  plt.plot(range(lex), THETA_X , color='r', label='theta_x')
 #
 ####
 
