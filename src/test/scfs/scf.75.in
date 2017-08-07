@@ -1,0 +1,137 @@
+
+    &CONTROL
+calculation  = 'scf'
+restart_mode = 'from_scratch'
+prefix       ='scf-75'
+pseudo_dir   ='/global/cscratch1/sd/almno10/.data/PSEUDOPOTENTIALS'
+outdir       ='./scratch'
+dt           = 160
+tstress      =.false.
+tprnfor      =.true.
+!forc_conv_thr=1.0d-4
+verbosity    = 'high'
+nstep        = 2000
+/
+
+&system
+    ibrav=0
+    celldm(1)=1.889726
+    nat=24
+    ntyp=3
+    ecutwfc=100
+    ecutrho=1000
+!   spline_ps=.true.
+!   nosym=.true.
+/
+
+&electrons
+
+    electron_maxstep  = 200
+!   scf_must_converge = .true.
+    conv_thr          = 1e-7
+!   adaptive_thr      = 1.D-6
+!   conv_thr_init     = 1.D-3
+
+    mixing_mode       = 'plain'
+    mixing_beta       = 0.7
+!   mixing_ndim       = 8
+!   mixing_fixed_ns   = 0
+!
+    diagonalization   = 'david'
+!   ortho_para        = 0
+    diago_thr_init    = 1.D-4
+!   diago_cg_maxiter  = 2?
+!   diago_david_ndim  = 4
+!   diago_full_ac     = .false.
+!
+!
+!   efield            = 0.D0
+!   efield_cart(i)    = (0.D0, 0.D0, 0.D0) ! need lelfield=.true., K_POINTS automatic
+!   startingpot       = 'atomic'
+!   startingwfc       = 'atomic+random'
+!   tqr               = .false.
+!
+/
+
+
+&ions
+!   ion_dynamics      = 'verlet'
+!   ion_positions     = 'default'
+!   pot_extrapolation = 'atomic'
+!   wfc_extrapolation = 'none'
+!   remove_rigid_rot  = .false.
+!
+!-------------------------------------------
+!    !!!Molecular Dynamics only!!!         -
+!-------------------------------------------
+    ion_temperature   = 'initial'
+    tempw             = 586.D0
+    tolp              = 100.D0
+    delta_t           = 1.D0
+    nraise            = 1
+!    refold_pos
+!------------------------------------------
+!    !!!BFGS only!!!
+!------------------------------------------
+!   upscale           = 100.D0
+!   bfgs_ndim         = 1
+!   trust_radius_max  = 0.8D0
+!   trust_radius_min  = 1.D-3
+!   trust_radius_ini  = 0.5D0
+
+!   w_1               = 0.01D0
+!   w_2               = 0.5D0
+!-------------------------------------------
+
+/
+
+&cell
+!
+    cell_dynamics     = 'bfgs'
+!   press             = 0.D0
+!   wmass             = !! fictitious cell mass
+!                default:0.75*Tot_Mass/pi**2 for Parrinello-Rahman MD; 0.75*Tot_Mass/pi**2/Omega**(2/3) for Wentzcovitch MD
+!   cell_factor       = 1.2D0
+!   press_conv_thr    = 0.5D0
+!   cell_dofree       = 'all'
+/
+
+ATOMIC_SPECIES
+C    12.0110   C.pbe-n-kjpaw_psl.1.0.0.UPF
+Cl   35.4527  Cl.pbe-n-kjpaw_psl.1.0.0.UPF
+H    1.0079    H.pbe-kjpaw_psl.1.0.0.UPF
+
+CELL_PARAMETERS (alat)
+  14.7620000000    0.0000000000    0.0000000000
+   0.0000000000    5.8320000000    0.0000000000
+  -1.5638756447    0.0000000000    3.7239513917
+
+ATOMIC_POSITIONS (crystal)
+Cl       1.172272324   0.199180584   0.504031973
+C        1.071781523   0.371847652   0.489151002
+C        1.093793888   0.570993276   0.696117247
+H        1.170111118   0.608759743   0.863771841
+C        1.018586469   0.700498062   0.731135458
+H        1.036195000   0.855412452   0.894381958
+H        0.457896469   0.363331805   0.200075690
+C        0.478098404   0.199971828   0.339571466
+H        0.328043727   0.097042115   0.211583158
+C        0.405037489   0.047868838   0.337798297
+C        0.429438065  -0.162843271   0.513328032
+Cl       0.323854029  -0.313289204   0.484686683
+H        0.957792844   0.150819759   0.131697891
+C        0.974863098   0.302822171   0.301087952
+H        0.823194548   0.399897804   0.149155148
+C        0.899458508   0.449075346   0.294892165
+C        0.921868824   0.645708725   0.512412441
+Cl       0.831948721   0.836207725   0.480724265
+H        0.547273697  -0.399399441   0.809820721
+C        0.526989452  -0.233344019   0.678733189
+H        0.676706670  -0.133620798   0.794588258
+C        0.599720005  -0.085007558   0.667416599
+C        0.575532775   0.128903715   0.502819723
+Cl       0.673640990   0.301057783   0.507151761
+
+
+K_POINTS automatic
+2 4 4 1 1 1
