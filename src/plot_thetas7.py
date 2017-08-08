@@ -130,7 +130,7 @@ def get_primed(cq0=None,et0=None):
 
 
 def main():
-  thetas = get_all_thetas(range(0,3000,5))
+  thetas = get_all_thetas(range(0,3000))
   THETA_X,THETA_Y,THETA_X_SQ,THETA_Y_SQ = thetas[0],thetas[1],thetas[2],thetas[3]
   
 
