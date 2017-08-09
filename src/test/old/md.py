@@ -46,11 +46,10 @@ class Md(object):
   molecule1 = [2,  3,  5, 17, 16, 14,  4,  6, 15, 13,  1, 18]
   molecule2 = [23, 8, 10, 11, 20, 22,  7,  9, 19, 21, 24, 12]
   
-  def __init__(self, pwifile='md.in', pwofile='md.out'):
+  def __init__(self, pwifile, pwofile):
     self.pwifile = pwifile
-    self.pwofile = pwofile
-#    print("opening infile: {}\nopening outfile: {}".format(pwifile,pwofile))
     self.pwifile_array = open(pwifile, 'r').readlines()
+    self.pwofile = pwofile
     self.pwofile_array = open(pwofile, 'r').readlines()
     self.file_array = self.pwifile_array + self.pwofile_array
     # ascertain nat
@@ -118,9 +117,7 @@ class Md(object):
       positions.append(these_positions)
     return positions
 
-
-  @property
-  def latvex(self, pwi_file=None):
+  def get_pwi_latvecs(self, pwi_file=None):
     """
     Opens a pw.x input file and returns a np.matrix
     of the CELL_PARAMETERS card. Recall 
@@ -140,15 +137,6 @@ class Md(object):
     self.latvecs = np.array([ line.split() for line in pwi[c+1:c+4] ], float).T
     self.inv_latvecs = np.linalg.inv(self.latvecs)
     return self.latvecs
-
-  
-  def positions(self, step):
-    return self.all_positions[step]
-
-
-  @property
-  def all_positions(self):
-    return self.get_trajectory3()
 
 
 
