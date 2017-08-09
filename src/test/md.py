@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-
+#
+#
+#
 #################################################################################
 #										#
 # Copyright (c) 2016 Allen Majewski (altoidnerd)				#
@@ -29,7 +31,44 @@
 import sys
 import matplotlib.pyplot as plt
 import numpy as np
-import matrix
+import matrix as mat
+from nqr_parser6 import f32
+
+def filtr(pattern, array):
+  """
+  filtr(str "parrtern", list array): -> list
+  
+    returns a new list containing the elements
+    in array for which "pattern" is matched.
+  """
+  return list( filter( lambda x: pattern in x, array ) )
+
+def indices(pattern, array):
+  """
+  indices(str "pattern", array): -> list
+  
+    returns a new list containing the indices 
+    of the elements in array that match "pattern."
+  """
+  return [ array.index(thing) for thing in filtr(pattern, array) ]
+
+def lmap(func, array):
+  """
+  lmap(function, array): -> list
+
+  just like python map, but returns a list instead of a
+ """
+  return list( map( func, array ) ) 
+
+def dict_to_object(dict_item):
+  d = dict_item
+  class _:
+    pass
+  for key, value in d.items():
+    setattr(_, key, value)
+  return _
+
+
 
 
 class Md(object):
@@ -50,11 +89,11 @@ class Md(object):
     self.pwifile = pwifile
     self.pwofile = pwofile
 #    print("opening infile: {}\nopening outfile: {}".format(pwifile,pwofile))
-    self.pwifile_array = open(pwifile, 'r').readlines()
-    self.pwofile_array = open(pwofile, 'r').readlines()
+    self.pwifile_array = [ line.strip() for line in open(pwifile, 'r').readlines()]
+    self.pwofile_array = [ line.strip() for line in open(pwofile, 'r').readlines()]
     self.file_array = self.pwifile_array + self.pwofile_array
     # ascertain nat
-    nat = [ line for line in self.file_array if 'nat' in line ][0]
+    nat = filtr('nat', self.file_array)[0]
     self.nat = int(nat.strip().replace('nat=',''))
 
 
@@ -88,35 +127,21 @@ class Md(object):
       positions.append(these_positions)
     return positions
 
-  def get_trajectory2(self):
-    """
-    returns trajectory as a list of numpy 
-    arrays each of which contains on the the 
-    float representations positions of the
-    atomic species
-    """
-    positions = []
-    self.file_array
-    inds = [ i for i,x in enumerate(self.file_array) if "ATOMIC_POSITIONS" in x ] 
-    for ind in inds:
-      these_positions = [ list( map( float, line.strip().split()[1:])) for line in self.file_array[ind+1:ind+self.nat+1] ]
-      positions.append(np.array(these_positions))
-    return positions
+  @property
+  def atom_labels(self):
+    labels=[]
+    ind = indices('POS', self.pwifile_array)[0] 
+    first_positions = self.pwifile_array[ind: ind+self.nat+1]
+    return [None]+[ line.split()[0].strip() for line in first_positions ][1:]
 
-  def get_trajectory3(self):
-    """
-    returns trajectory as a list of lists 
-    each of which contains on the the 
-    float representations positions of the
-    atomic species
-    """
-    positions = []
-    self.file_array
-    inds = [ i for i,x in enumerate(self.file_array) if "ATOMIC_POSITIONS" in x ] 
-    for ind in inds:
-      these_positions = [ list( map( float, line.strip().split()[1:])) for line in self.file_array[ind+1:ind+self.nat+1] ]
-      positions.append(these_positions)
-    return positions
+  
+
+
+
+
+
+
+
 
 
   @property
@@ -137,9 +162,7 @@ class Md(object):
       )
     params = []
     c = cell_params_start
-    self.latvecs = np.array([ line.split() for line in pwi[c+1:c+4] ], float).T
-    self.inv_latvecs = np.linalg.inv(self.latvecs)
-    return self.latvecs
+    return np.array([ line.split() for line in pwi[c+1:c+4] ], float).T
 
   
   def positions(self, step):
@@ -177,3 +200,32 @@ def get_string(positions):
 
 
 
+  def get_trajectory2(self):
+    """
+    returns trajectory as a list of numpy 
+    arrays each of which contains on the the 
+    float representations positions of the
+    atomic species
+    """
+    positions = []
+    self.file_array
+    inds = [ i for i,x in enumerate(self.file_array) if "ATOMIC_POSITIONS" in x ] 
+    for ind in inds:
+      these_positions = [ list( map( float, line.strip().split()[1:])) for line in self.file_array[ind+1:ind+self.nat+1] ]
+      positions.append(np.array(these_positions))
+    return positions
+
+  def get_trajectory3(self):
+    """
+    returns trajectory as a list of lists 
+    each of which contains on the the 
+    float representations positions of the
+    atomic species
+    """
+    positions = []
+    self.file_array
+    inds = [ i for i,x in enumerate(self.file_array) if "ATOMIC_POSITIONS" in x ] 
+    for ind in inds:
+      these_positions = [ list( map( float, line.strip().split()[1:])) for line in self.file_array[ind+1:ind+self.nat+1] ]
+      positions.append(these_positions)
+    return positions
