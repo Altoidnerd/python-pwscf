@@ -169,21 +169,23 @@ class Efg(object):
 
   @property
   def symmetrized_efg(self, atom=None):
-    begin_on_pattern= '(symmetrized)'
-    begin_on_index  = self.file_array.index(filtr(begin_on_pattern, self.file_array)[0])
-    end_on_pattern  = 'NQR/NMR SPECTROSCOPIC PARAMETERS'
-    end_on_index    = self.file_array.index(filtr(end_on_pattern, self.file_array)[0])
-    begin, end      = begin_on_index, end_on_index 
-    file_slice      = self.file_array[begin+1:end]
-    tensors         = [None]*self.nat
-    labels          = self.atom_labels
-    for i in range(len(labels)):
-      tens = [ lmap( float, thing.split()[2:]) for thing in filtr(self.atom_labels[i], file_slice) ] 
-      tensors[i] = tens
-    return tensors
+#    begin_on_pattern= '(symmetrized)'
+#    begin_on_index  = self.file_array.index(filtr(begin_on_pattern, self.file_array)[0])
+#    end_on_pattern  = 'NQR/NMR SPECTROSCOPIC PARAMETERS'
+#    end_on_index    = self.file_array.index(filtr(end_on_pattern, self.file_array)[0])
+#    begin, end      = begin_on_index, end_on_index 
+#    file_slice      = self.file_array[begin+1:end]
+#    tensors         = [None]*self.nat
+#    labels          = self.atom_labels
+#    for i in range(len(labels)):
+#      tens = [ lmap( float, thing.split()[2:]) for thing in filtr(self.atom_labels[i], file_slice) ] 
+#      tensors[i] = tens
+#    return tensors
+     print('pass')
+     pass
 
   #@property
-  #def compd_eigvals(self, atom=None, sym=True, herm=False):
+  def compd_eigvals(self, atom=None, sym=True, herm=False):
   #  if sym:
   #    efgs = self.symmetrized_efg
   #  else:
@@ -193,7 +195,8 @@ class Efg(object):
   #  else:
   #    eigfunc = np.linalg.eigh
   #  return [ eigfunc(thing) for thing  in  efgs ]
-
+     print('pass')
+     pass
 
 
 
@@ -243,6 +246,7 @@ class Efg(object):
 #	'X':Xaxis,
 #	'Y':Yaxis,
 #	'Z':Zaxis}
+    print('pass')
     pass
 
 
@@ -304,7 +308,7 @@ class Efg(object):
 			self.principle_axes, 
 			self.Qs, 
 			self.total_efg, 
-			self.symmetrized_efg
+#			self.symmetrized_efg
 			)
 		)
     if atom is None:
@@ -333,7 +337,7 @@ class Efg(object):
     symbol = label[:2].strip()
     index = int( label.replace(symbol,'').strip() )
     totalefg = np.array(tz[6])
-    symmefg  = np.array(tz[7])
+#   symmefg  = np.array(tz[7])
     return {
 	'label': 	  tz[0],
 	'name': 	  tz[0],
@@ -365,7 +369,7 @@ class Efg(object):
 	'efg':         totalefg,
 	'tensor':      totalefg,
 	'total_efg':   totalefg,
-	'symmetrized_efg':symmefg,
+#	'symmetrized_efg':symmefg,
         'is_right_handed': is_right_handed(xax,yax,zax)
 }
 
@@ -384,7 +388,3 @@ class Efg(object):
 
 
 
-class Efg_Collection(object):
-
-  def  __init__(self, range_like, md=None):
-    pass    
