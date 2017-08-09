@@ -71,6 +71,11 @@ def dict_to_object(dict_item):
 asobject = dict_to_object
 
 
+def is_right_handed(x,y,z):
+  testz=np.cross(x,y)
+  return np.isclose(z,testz rtol=1e-3)
+    
+
 
 class Efg(object):
   """
@@ -154,7 +159,7 @@ class Efg(object):
     for i in range(len(labels)):
       tens = [ lmap( float, thing.split()[2:]) for thing in filtr(self.atom_labels[i], file_slice) ] 
       tensors[i] = tens
-    return np.array(tensors)
+    return tensors
     
 
   @property
@@ -196,6 +201,8 @@ class Efg(object):
       Xaxis  = lmap(float, filtr('Vxx', vijs)[0].replace(')','').replace('(','').split()[5:])
       Yaxis  = lmap(float, filtr('Vyy', vijs)[0].replace(')','').replace('(','').split()[5:])
       Zaxis  = lmap(float, filtr('Vzz', vijs)[0].replace(')','').replace('(','').split()[5:])
+      if not(is_right_handed(Xaxis,Yaxis,Zaxis):
+        Xaxis,Yaxis,Zaxis = -Xaxis,-Yaxis,-Zaxis
       ax = []
       ax.append(Xaxis)
       ax.append(Yaxis)
@@ -313,43 +320,47 @@ class Efg(object):
     tz = self.tidy_zip(specie)
     vxx, vyy, vzz = tz[3][0], tz[3][1], tz[3][2]
     pax = tz[4]
-    xax, yax, zax = pax[0], pax[1], pax[2]
+    xax = np.array( pax[0] )
+    yax = np.array( pax[1] )
+    zax = np.array( pax[2] )
     freq = np.abs(f32(tz[1],tz[2]))
     label = tz[0]
     symbol = label[:2].strip()
     index = int( label.replace(symbol,'').strip() )
+    totalefg = np.array(tz[6])
+    symmefg  = np.array(tz[7])
     return {
-	'label': 	tz[0],
-	'name': 	tz[0],
-	'symbol':	symbol,
-        'index':	index,
-        'mdstep': 	self.mdstep,
-	'Cq':		tz[1],
-	'cq':		tz[1],
-	'Eta':		tz[2],
-	'eta':		tz[2],
-	'fq':		freq,
-	'Vii':		tz[3],
-	'vii':		tz[3],
-	'Vxx':		vxx,
-	'vxx':		vxx,
-	'Vyy':		vyy,
-	'vyy':		vyy,
-	'Vzz':		vzz,
-	'vzz':		vzz,
-	'axes':		pax,
-	'pax':		pax,
-	'xaxis':	xax,
-        'x':		xax,
-	'yaxis':	yax,
-	'y':		yax,
-	'zaxis':	zax,
-	'z':		zax,
-	'Q':		tz[5],
-	'efg':		tz[6],
-	'tensor':	tz[6],
-	'total_efg':	tz[6],
-	'symmetrized_efg':tz[7]
+	'label': 	  tz[0],
+	'name': 	  tz[0],
+	'symbol':	  symbol,
+        'index':	  index,
+        'mdstep': 	  self.mdstep,
+	'Cq':		  tz[1],
+	'cq':		  tz[1],
+	'Eta':		  tz[2],
+	'eta':		  tz[2],
+	'fq':		  freq,
+	'Vii':		  tz[3],
+	'vii':		  tz[3],
+	'Vxx':		  vxx,
+	'vxx':		  vxx,
+	'Vyy':		  vyy,
+	'vyy':		  vyy,
+	'Vzz':		  vzz,
+	'vzz':		  vzz,
+	'axes':		  pax,
+	'pax':		  pax,
+	'xaxis':	  xax,
+        'x':		  xax,
+	'yaxis':	  yax,
+	'y':		  yax,
+	'zaxis':	  zax,
+	'z':		  zax,
+	'Q':		  tz[5],
+	'efg':         totalefg,
+	'tensor':      totalefg,
+	'total_efg':   totalefg,
+	'symmetrized_efg':symmefg
 }
 
 

@@ -71,16 +71,6 @@ def dict_to_object(dict_item):
 asobject = dict_to_object
 
 
-def is_right_handed(x, y, z):
-  """
-   determine if a set of axes
-   is a right handed coordinate 
-   system using the cross product
-  """
-  testz=np.cross(x, y)
-  return np.all(np.isclose(z, testz, rtol=0.01))
-    
-
 
 class Efg(object):
   """
@@ -127,14 +117,14 @@ class Efg(object):
     return len([ line for line in self.file_array if 'Q=' in line ])
 
     
-  #@property
-  #def WALL_TIME(self):
-  #  return float([ line.split()[4] for line in filtr('WALL',self.file_array) ][-1].replace('s',''))
+  @property
+  def WALL_TIME(self):
+    return float([ line.split()[4] for line in filtr('WALL',self.file_array) ][-1].replace('s',''))
 
     
-  #@property
-  #def CPU_TIME(self):
-  #  return float([ line.split()[2] for line in filtr('WALL',self.file_array) ][-1].replace('s',''))
+  @property
+  def CPU_TIME(self):
+    return float([ line.split()[2] for line in filtr('WALL',self.file_array) ][-1].replace('s',''))
 
 
   @property
@@ -182,17 +172,17 @@ class Efg(object):
       tensors[i] = tens
     return tensors
 
-  #@property
-  #def compd_eigvals(self, atom=None, sym=True, herm=False):
-  #  if sym:
-  #    efgs = self.symmetrized_efg
-  #  else:
-  #    efgs = self.total_efg
-  #  if not herm:
-  #    eigfunc = np.linalg.eig
-  #  else:
-  #    eigfunc = np.linalg.eigh
-  #  return [ eigfunc(thing) for thing  in  efgs ]
+  @property
+  def compd_eigvals(self, atom=None, sym=True, herm=False):
+    if sym:
+      efgs = self.symmetrized_efg
+    else:
+      efgs = self.total_efg
+    if not herm:
+      eigfunc = np.linalg.eig
+    else:
+      eigfunc = np.linalg.eigh
+    return [ eigfunc(thing) for thing  in  efgs ]
 
 
 
@@ -203,11 +193,9 @@ class Efg(object):
     for i in range(self.nat):
       label = self.atom_labels[i]
       vijs = filtr(label, self.file_array)[-4:][:3]
-      Xaxis  = np.array( lmap(float, filtr('Vxx', vijs)[0].replace(')','').replace('(','').split()[5:]))
-      Yaxis  = np.array( lmap(float, filtr('Vyy', vijs)[0].replace(')','').replace('(','').split()[5:]))
-      Zaxis  = np.array( lmap(float, filtr('Vzz', vijs)[0].replace(')','').replace('(','').split()[5:]))
-      if not(is_right_handed(Xaxis,Yaxis,Zaxis)):
-        Xaxis,Yaxis,Zaxis = -Xaxis,-Yaxis,-Zaxis
+      Xaxis  = lmap(float, filtr('Vxx', vijs)[0].replace(')','').replace('(','').split()[5:])
+      Yaxis  = lmap(float, filtr('Vyy', vijs)[0].replace(')','').replace('(','').split()[5:])
+      Zaxis  = lmap(float, filtr('Vzz', vijs)[0].replace(')','').replace('(','').split()[5:])
       ax = []
       ax.append(Xaxis)
       ax.append(Yaxis)
