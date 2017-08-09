@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-
+#
+#
+#
 #################################################################################
 #										#
 # Copyright (c) 2016 Allen Majewski (altoidnerd)				#
@@ -29,7 +31,44 @@
 import sys
 import matplotlib.pyplot as plt
 import numpy as np
-import matrix
+import matrix as mat
+from nqr_parser6 import f32
+
+def filtr(pattern, array):
+  """
+  filtr(str "parrtern", list array): -> list
+  
+    returns a new list containing the elements
+    in array for which "pattern" is matched.
+  """
+  return list( filter( lambda x: pattern in x, array ) )
+
+def indices(pattern, array):
+  """
+  indices(str "pattern", array): -> list
+  
+    returns a new list containing the indices 
+    of the elements in array that match "pattern."
+  """
+  return [ array.index(thing) for thing in filtr(pattern, array) ]
+
+def lmap(func, array):
+  """
+  lmap(function, array): -> list
+
+  just like python map, but returns a list instead of a
+ """
+  return list( map( func, array ) ) 
+
+def dict_to_object(dict_item):
+  d = dict_item
+  class _:
+    pass
+  for key, value in d.items():
+    setattr(_, key, value)
+  return _
+
+
 
 
 class Md(object):
