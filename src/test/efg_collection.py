@@ -4,10 +4,10 @@ import os
 
 class Efg_collection(object):
 
-  def  __init__(self, target_dir='./scfs/', fstr='efg.{}.out', start=0, limit=10e9, range_like=None, md=None):
+  def  __init__(self, target_dir='./scfs/', fstr='efg.{}.out', start=0, limit=10e9, range_like=None, md_init=None):
     import os
     self.efgs=[]
-    self.md = md
+    self.md_init = md_init
     if range_like is None:
       print('loading all efg data from: {}'.format(target_dir))
       print('format string is: {}'.format(fstr.format('index')))
@@ -31,18 +31,20 @@ class Efg_collection(object):
   def size(self):
     return len(self.efgs)
 
-    
-#  def positions(self,step):
- #   if self.md is None:
-  #    print("No md data loaded.")
-   #   files=os.listdir('.')
-    #  if 'md.in' in files and 'md.out' in files:
-     #   print('Md data has been located in the current directory {}.\nWould you like to load it?'.format(os.get_cwd()))
-      #  prompt='y/n> '
-      #  answer=input(prompt)
-#        if answer is n:
- #         return 
-  #      else:
-   #       mddata=md.Md()
-    #      self.md=md.Md()
-     # return self.md.positions(k)
+  @property
+  def mddata(self,inf='md.in',outf='md.out'):
+    if self.md_init is None:
+      try:
+        return md.Md(inf,outf)
+      except FileNotFoundError:
+        print("No MD data found in {}".format(os.get_cwd()))
+        return self.md_init
+
+  @property
+  def positions(self,step):
+    try:
+      return self.mddata.positions(step)
+    except AttributeError:
+      return self.md_init
+
+

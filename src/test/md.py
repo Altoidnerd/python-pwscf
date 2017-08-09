@@ -49,7 +49,7 @@ class Md(object):
   def __init__(self, pwifile='md.in', pwofile='md.out'):
     self.pwifile = pwifile
     self.pwofile = pwofile
-    print("opening infile: {}\nopening outfile: {}".format(pwifile,pwofile))
+#    print("opening infile: {}\nopening outfile: {}".format(pwifile,pwofile))
     self.pwifile_array = open(pwifile, 'r').readlines()
     self.pwofile_array = open(pwofile, 'r').readlines()
     self.file_array = self.pwifile_array + self.pwofile_array
