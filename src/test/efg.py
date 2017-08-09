@@ -381,4 +381,9 @@ class Efg(object):
   def atoms(self):
     return [None] + [ self.atom(i) for i in range(1,self.nat + 1 ) ]    
 
-    
+
+
+class Efg_Collection(object):
+
+  def  __init__(self, range_like, md=None):
+    pass    
