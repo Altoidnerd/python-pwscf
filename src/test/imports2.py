@@ -1,4 +1,4 @@
-import md as md
+import md2 as md
 import numpy as np
 import matplotlib.pyplot as plt
 import efg as efg
