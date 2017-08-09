@@ -218,12 +218,12 @@ class Efg(object):
 
 
 
-  @property
-  def axes(self, aslist=False):
-    """ 
-    optional parameter to return as a list
-    def axes(self, aslist=False) ... 
-    """
+#  @property
+ # def axes(self, aslist=False):
+  #  """ 
+   # optional parameter to return as a list
+    #def axes(self, aslist=False) ... 
+    #"""
 #    axes=[]
  #   for i in range(self.nat):
   #    label = self.atom_labels[i]
@@ -365,7 +365,8 @@ class Efg(object):
 	'efg':         totalefg,
 	'tensor':      totalefg,
 	'total_efg':   totalefg,
-	'symmetrized_efg':symmefg
+	'symmetrized_efg':symmefg,
+        'is_right_handed': is_right_handed(xax,yax,zax)
 }
 
 
