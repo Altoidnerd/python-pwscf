@@ -120,37 +120,10 @@ class Md(object):
     in md output.
     """
     positions = []
+    self.file_array
     inds = [ i for i,x in enumerate(self.file_array) if "ATOMIC_POSITIONS" in x ] 
     for ind in inds:
       these_positions = [ line.strip() for line in self.file_array[ind+1:ind+self.nat+1] ]
-      positions.append(these_positions)
-    return positions
-  
-  def get_trajectory2(self):
-    """
-    returns trajectory as a list of numpy 
-    arrays each of which contains on the the 
-    float representations positions of the
-    atomic species
-    """
-    positions = []
-    inds = [ i for i,x in enumerate(self.file_array) if "ATOMIC_POSITIONS" in x ] 
-    for ind in inds:
-      these_positions = [ list( map( float, line.strip().split()[1:])) for line in self.file_array[ind+1:ind+self.nat+1] ]
-      positions.append(np.array(these_positions))
-    return positions
-
-  def get_trajectory3(self):
-    """
-    returns trajectory as a list of lists 
-    each of which contains on the the 
-    float representations positions of the
-    atomic species
-    """
-    positions = []
-    inds = [ i for i,x in enumerate(self.file_array) if "ATOMIC_POSITIONS" in x ] 
-    for ind in inds:
-      these_positions = [ list( map( float, line.strip().split()[1:])) for line in self.file_array[ind+1:ind+self.nat+1] ]
       positions.append(these_positions)
     return positions
 
@@ -163,38 +136,21 @@ class Md(object):
 
   
 
-  def get_latvex(self, pwi_file=None, return_as='array'):
-    """
-    get_latvex(pwi_file=None, return_as='array')
 
-    ->If optional param return_as='array':
-    Opens a pw.x input file and returns a np.matrix
-    of the CELL_PARAMETERS card. Recall 
-    <alat_coordinates> = latvecs @ <crystal coordinates>
-    
-    ->If optional param return_as='string'
-    
-    """
-    if pwi_file is None:
-      pwi = self.pwifile_array
-    else:
-      pwi = open(pwi_file, 'r').readlines()
-    if return_as == 'array':
-  
-      cell_params_start = min( 
-        [ pwi.index(line) for line in pwi 
-            if 'CELL_PARAM' in line ]
-        )
-      params = []
-      c = cell_params_start
-      return np.array([ line.split() for line in pwi[c+1:c+4] ], float).T
-    
-    if return_as == 'string':
-      return self.get_lvs_as_str()
+
+
+
+
+
 
 
   @property
-  def latvex_array(self, pwi_file=None):
+  def latvex(self, pwi_file=None):
+    """
+    Opens a pw.x input file and returns a np.matrix
+    of the CELL_PARAMETERS card. Recall 
+    <alat_coordinates> = latvecs @ <crystal coordinates>
+    """
     if pwi_file is None:
       pwi = self.pwifile_array
     else:
@@ -207,36 +163,6 @@ class Md(object):
     params = []
     c = cell_params_start
     return np.array([ line.split() for line in pwi[c+1:c+4] ], float).T
-
-  @property
-  def latvex_string(self):
-    vex = self.get_latvex(return_as='string')  
-    s = ''
-    for vec in vex:
-      s += vec+'\n'
-    return s
-
-
-  #@property
-  #def latvex_as_str(self):
-    # have to transpose because QE
-    # specifies lattice vectors as
-    # rows
-    #lv = self.latvex.T
-      #print(str(i).strip('[]').replace('  ','    ').replace(' -','   '))    
-
-  
-  def get_lvs_as_str(self):
-    """
-    """
-    lvs = []
-    inds = [ i for i,x in enumerate(self.file_array) if "CELL_PARAMETERS" in x ] 
-    for ind in inds:
-      num_latvex = 3
-      # much like get_trajectory1() except 3=1 instead of self.nat+1
-      these_lvs = [ line.strip() for line in self.file_array[ind+1:ind+num_latvex+1] ]
-      lvs.append(these_lvs)
-    return these_lvs
 
   
   def positions(self, step):
@@ -274,3 +200,32 @@ def get_string(positions):
 
 
 
+  def get_trajectory2(self):
+    """
+    returns trajectory as a list of numpy 
+    arrays each of which contains on the the 
+    float representations positions of the
+    atomic species
+    """
+    positions = []
+    self.file_array
+    inds = [ i for i,x in enumerate(self.file_array) if "ATOMIC_POSITIONS" in x ] 
+    for ind in inds:
+      these_positions = [ list( map( float, line.strip().split()[1:])) for line in self.file_array[ind+1:ind+self.nat+1] ]
+      positions.append(np.array(these_positions))
+    return positions
+
+  def get_trajectory3(self):
+    """
+    returns trajectory as a list of lists 
+    each of which contains on the the 
+    float representations positions of the
+    atomic species
+    """
+    positions = []
+    self.file_array
+    inds = [ i for i,x in enumerate(self.file_array) if "ATOMIC_POSITIONS" in x ] 
+    for ind in inds:
+      these_positions = [ list( map( float, line.strip().split()[1:])) for line in self.file_array[ind+1:ind+self.nat+1] ]
+      positions.append(these_positions)
+    return positions
