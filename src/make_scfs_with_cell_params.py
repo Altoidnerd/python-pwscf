@@ -19,11 +19,6 @@ import os
 
 
 
-cell_parameters = """
-  14.7620000000    0.0000000000    0.0000000000
-   0.0000000000    5.8320000000    0.0000000000
-  -1.5638756447    0.0000000000    3.7239513917
-"""
 
 
 
@@ -132,9 +127,7 @@ Cl   35.4527  Cl.pbe-n-kjpaw_psl.1.0.0.UPF
 H    1.0079    H.pbe-kjpaw_psl.1.0.0.UPF
 
 CELL_PARAMETERS (alat)
-  14.7620000000    0.0000000000    0.0000000000
-   0.0000000000    5.8320000000    0.0000000000
-  -1.5638756447    0.0000000000    3.7239513917
+{}
 
 ATOMIC_POSITIONS (crystal)
 {}
@@ -142,7 +135,6 @@ ATOMIC_POSITIONS (crystal)
 K_POINTS automatic
 2 4 4 1 1 1
 """
-
 
 
 
@@ -154,11 +146,12 @@ def main():
       pass
   x=md.Md('md.in','md.out')
   traj = x.get_trajectory1()
+  latvex = x.latvex_string
   for i in range(len(traj)):
-    pos = ''
+    positions = ''
     for line in traj[i]:
-      pos += line+'\n'
-    scfinput = fstring.format(i,pos)
+      positions += line+'\n'
+    scfinput = fstring.format(i, latvex, positions)
     f=open('{}/scf.{}.in'.format(dest_dir,i),'w')
     f.write(scfinput)
     f.close()
