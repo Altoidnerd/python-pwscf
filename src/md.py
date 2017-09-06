@@ -217,15 +217,17 @@ class Md(object):
     return s
 
 
-  #@property
-  #def latvex_as_str(self):
-    # have to transpose because QE
-    # specifies lattice vectors as
-    # rows
-    #lv = self.latvex.T
-      #print(str(i).strip('[]').replace('  ','    ').replace(' -','   '))    
-
+  def get_cell_volume(self):
+    a = self.latvex_array.T[0]
+    b = self.latvex_array.T[1]
+    c = self.latvex_array.T[2]
+    cell_volume = a @ np.cross(b,c)
+    return cell_volume
   
+  @property
+  def cell_volume(self):
+    return self.get_cell_volume()
+
   def get_lvs_as_str(self):
     """
     """
@@ -247,7 +249,7 @@ class Md(object):
   def all_positions(self):
     return self.get_trajectory3()
 
-
+ 
 
   def pprint_coors(self,positions):
     pos = positions
