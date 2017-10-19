@@ -41,8 +41,8 @@ nstep        = 2000
 &system
     ibrav=0
     celldm(1)=1.889726
-    nat=24
-    ntyp=3
+    nat={}
+    ntyp={}
     ecutwfc=100
     ecutrho=1000
 !   spline_ps=.true.
@@ -144,14 +144,16 @@ def main():
     os.mkdir(dest_dir)
   except FileExistsError:
       pass
-  x=md.Md('md.in','md.out')
-  traj = x.get_trajectory1()
-  latvex = x.latvex_string
+  x     = md.Md('md.in','md.out')
+  nat   = x.nat
+  ntyp  = x.ntyp
+  traj  = x.get_trajectory1()
+  latvex= x.latvex_string
   for i in range(len(traj)):
     positions = ''
     for line in traj[i]:
       positions += line+'\n'
-    scfinput = fstring.format(i, latvex, positions)
+    scfinput = fstring.format(i, nat, ntyp, latvex, positions)
     f=open('{}/scf.{}.in'.format(dest_dir,i),'w')
     f.write(scfinput)
     f.close()
