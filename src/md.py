@@ -249,7 +249,15 @@ class Md(object):
   def all_positions(self):
     return self.get_trajectory3()
 
- 
+  @property
+  def atomic_species(self):
+    return set(self.atom_labels[1:])
+
+  @property
+  def ntyp(self):
+    return len(self.atomic_species)
+
+   
 
   def pprint_coors(self,positions):
     pos = positions
