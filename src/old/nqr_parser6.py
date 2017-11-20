@@ -14,41 +14,20 @@ import sys
 #################################
 
 def f52(cq, eta=0, verbose=False):
-  """
-  f52(cq,eta) returns the nqr frequencies for a spin 5/2 nucleus
-  corresponding with coupling consntant cq and asymmetry
-  parameter eta as a numpy array [v+, v-].
-  """
-  x2 = 1 - 11/54*eta**2
-  x1 = 1 + 5/54*eta**2
-  return 3 / 10 * cq * np.array( [1/2*x1, x2 ] )
+    x2 = 1 - 11/54*eta**2
+    x1 = 1 + 5/54*eta**2
+    return 3 / 10 * cq * np.array( [1/2*x1, x2 ] )
 
 def f32(cq, eta=0):
-  """
-  f32(cq,eta) returns the single nqr frequency for a spin 3/2 
-  nucleus corresponding with coupling consntant cq and asymmetry
-  parameter eta.
-  """
   return np.sqrt( 1 + (eta**2)/3 ) * cq/2
 
 def f1(cq, eta=0):
-  """
-  f1(cq,eta) returns the nqr frequencies for a spin 1 nucleus
-  corresponding with coupling consntant cq and asymmetry
-  parameter eta as a numpy array [dv, v-, v+].
-  """
   x0 = 2/3 * eta
   x1 = 1 - eta/3
   x2 = 1 + eta/3
   return (3/4) * cq * np.array( [x0, x1, x2] )
 
 def cq32(f, eta=0):
-  """
-  cq32(cq,eta) returns the coupling constant for a spin 3/2 
-  nucleus corresponding to nqr frequency cq and asymmetry
-  parameter eta.
-  """
-  
   return np.sqrt( 4 * f**2 / (1 + eta**2 / 3) )
 
 def cq1(freq_arr, eta=0):

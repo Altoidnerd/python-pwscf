@@ -93,7 +93,7 @@ class Efg(object):
     self.file_array = self.efgfile_array
     self.labels = self.atom_labels
     self.specie = set(self.atomic_species)
-  #  self.data = "Attribute not loaded.  Use self.get_data() to assign self.data."  
+    self.data = "Attribute not loaded.  Use self.get_data() to assign self.data."  
 
   def __repr__(self):
     return "< efg object; efgfile: {}\tlength: {} lines >".format(self.efgfile, len(self.efgfile_array))
@@ -108,6 +108,17 @@ class Efg(object):
     for line in self.file_array:
       sys.stdout.write(line)
 
+
+  def get_data(self):
+    """
+    self.get_data() loads all properties to all atomic
+    species in the system and sets the attribute self.data
+    to a list of objects cointain the data for each atom,
+    and returns that list. This operation can take some time
+    so it does no run on init.
+    """
+    self.data = [None] + [ self.atom(i) for i in range(1,self.nat + 1 ) ] 
+    return self.data
 
   @property
   def mdstep(self):
@@ -324,8 +335,8 @@ class Efg(object):
 	'vyy':		  vyy,
 	'Vzz':		  vzz,
 	'vzz':		  vzz,
-	'principle_axes': pax,
 	'axes':		  pax,
+	'pax':		  pax,
 	'xaxis':	  xax,
         'x':		  xax,
 	'yaxis':	  yax,
@@ -347,15 +358,11 @@ class Efg(object):
 
   def compute_eta(self,atomic_specie_index):
     i = atomic_specie_index
-    return (self.atom(i).vxx - self.atom(i).vyy)/self.atom(i).vzz
-
+    return (self.atom(i).vyy - self.atom(i).vxx)/self.atom(i).vzz
 
   @property
   def atoms(self):
     return [None] + [ self.atom(i) for i in range(1,self.nat + 1 ) ]    
 
 
-  @property
-  def data(self):
-    return atoms 
 
