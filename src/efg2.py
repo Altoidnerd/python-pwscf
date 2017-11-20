@@ -29,8 +29,10 @@
 #   run on > 2.7 at your own risk.						
 
 import sys
+import matplotlib.pyplot as plt
 import numpy as np
-from nqr_parser import f32
+import matrix as mat
+from nqr_parser6 import f32
 
 def filtr(pattern, array):
   """
@@ -110,13 +112,6 @@ class Efg(object):
 
 
   def get_data(self):
-    """
-    self.get_data() loads all properties to all atomic
-    species in the system and sets the attribute self.data
-    to a list of objects cointain the data for each atom,
-    and returns that list. This operation can take some time
-    so it does no run on init.
-    """
     self.data = [None] + [ self.atom(i) for i in range(1,self.nat + 1 ) ] 
     return self.data
 
@@ -190,7 +185,7 @@ class Efg(object):
 #      tens = [ lmap( float, thing.split()[2:]) for thing in filtr(self.atom_labels[i], file_slice) ] 
 #      tensors[i] = tens
 #    return tensors
-     print('Not implemented.')
+     print('pass')
      pass
 
   #@property
@@ -204,7 +199,7 @@ class Efg(object):
   #  else:
   #    eigfunc = np.linalg.eigh
   #  return [ eigfunc(thing) for thing  in  efgs ]
-     print('Not implemented.')
+     print('pass')
      pass
 
 
@@ -226,6 +221,37 @@ class Efg(object):
       ax.append(Zaxis)
       axes.append(ax)
     return axes
+
+
+
+
+#  @property
+ # def axes(self, aslist=False):
+  #  """ 
+   # optional parameter to return as a list
+    #def axes(self, aslist=False) ... 
+    #"""
+#    axes=[]
+ #   for i in range(self.nat):
+  #    label = self.atom_labels[i]
+   #   vijs = filtr(label, self.file_array)[-4:][:3]
+    #  Xaxis  = lmap(float, filtr('Vxx', vijs)[0].replace(')','').replace('(','').split()[5:])
+     # Yaxis  = lmap(float, filtr('Vyy', vijs)[0].replace(')','').replace('(','').split()[5:])
+#      Zaxis  = lmap(float, filtr('Vzz', vijs)[0].replace(')','').replace('(','').split()[5:])
+ #     ax = []
+  #    ax.append(Xaxis)
+   #   ax.append(Yaxis)
+    #  ax.append(Zaxis)
+     # axes.append(ax)
+#    if aslist:
+ #     return axes
+  #  else:
+   #   return {
+#	'X':Xaxis,
+#	'Y':Yaxis,
+#	'Z':Zaxis}
+    print('pass')
+    pass
 
 
   @property
@@ -357,8 +383,8 @@ class Efg(object):
 		
 
   def compute_eta(self,atomic_specie_index):
-    i = atomic_specie_index
-    return (self.atom(i).vyy - self.atom(i).vxx)/self.atom(i).vzz
+    ind = atomic_specie_index
+    return (self.Vii[ind][0] - self.Vii[ind][1])/self.Vii[ind][2]
 
   @property
   def atoms(self):
