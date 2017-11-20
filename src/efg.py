@@ -29,10 +29,8 @@
 #   run on > 2.7 at your own risk.						
 
 import sys
-import matplotlib.pyplot as plt
 import numpy as np
-import matrix as mat
-from nqr_parser6 import f32
+from nqr_parser import f32
 
 def filtr(pattern, array):
   """
@@ -95,7 +93,7 @@ class Efg(object):
     self.file_array = self.efgfile_array
     self.labels = self.atom_labels
     self.specie = set(self.atomic_species)
-    self.data = [None] + [ self.atom(i) for i in range(1,self.nat + 1 ) ] 
+    self.data = "Attribute not loaded.  Use self.get_data() to assign self.data."  
 
   def __repr__(self):
     return "< efg object; efgfile: {}\tlength: {} lines >".format(self.efgfile, len(self.efgfile_array))
@@ -110,6 +108,10 @@ class Efg(object):
     for line in self.file_array:
       sys.stdout.write(line)
 
+
+  def get_data(self):
+    self.data = [None] + [ self.atom(i) for i in range(1,self.nat + 1 ) ] 
+    return self.data
 
   @property
   def mdstep(self):
@@ -181,7 +183,7 @@ class Efg(object):
 #      tens = [ lmap( float, thing.split()[2:]) for thing in filtr(self.atom_labels[i], file_slice) ] 
 #      tensors[i] = tens
 #    return tensors
-     print('pass')
+     print('Not implemented.')
      pass
 
   #@property
@@ -195,7 +197,7 @@ class Efg(object):
   #  else:
   #    eigfunc = np.linalg.eigh
   #  return [ eigfunc(thing) for thing  in  efgs ]
-     print('pass')
+     print('Not implemented.')
      pass
 
 
@@ -217,37 +219,6 @@ class Efg(object):
       ax.append(Zaxis)
       axes.append(ax)
     return axes
-
-
-
-
-#  @property
- # def axes(self, aslist=False):
-  #  """ 
-   # optional parameter to return as a list
-    #def axes(self, aslist=False) ... 
-    #"""
-#    axes=[]
- #   for i in range(self.nat):
-  #    label = self.atom_labels[i]
-   #   vijs = filtr(label, self.file_array)[-4:][:3]
-    #  Xaxis  = lmap(float, filtr('Vxx', vijs)[0].replace(')','').replace('(','').split()[5:])
-     # Yaxis  = lmap(float, filtr('Vyy', vijs)[0].replace(')','').replace('(','').split()[5:])
-#      Zaxis  = lmap(float, filtr('Vzz', vijs)[0].replace(')','').replace('(','').split()[5:])
- #     ax = []
-  #    ax.append(Xaxis)
-   #   ax.append(Yaxis)
-    #  ax.append(Zaxis)
-     # axes.append(ax)
-#    if aslist:
- #     return axes
-  #  else:
-   #   return {
-#	'X':Xaxis,
-#	'Y':Yaxis,
-#	'Z':Zaxis}
-    print('pass')
-    pass
 
 
   @property
