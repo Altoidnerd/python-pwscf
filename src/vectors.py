@@ -27,13 +27,19 @@
 
 import numpy as np
 
-
+    
 def vproject(a, b):
   """
   return vector projection of a onto b
   """
+  a,b=np.array(a),np.array(b)
   return (a@b)/(b@b)*b
 
-
+def sproject(a, b):
+  """
+  return scalar projection of a onto b
+  """
+  a,b=np.array(a),np.array(b)
+  return np.linalg.norm(vproject(a,b))
 
 

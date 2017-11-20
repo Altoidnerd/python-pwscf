@@ -32,7 +32,7 @@ import sys
 import matplotlib.pyplot as plt
 import numpy as np
 import matrix as mat
-from nqr_parser6 import f32
+from nqr_parser import f32
 
 def filtr(pattern, array):
   """
