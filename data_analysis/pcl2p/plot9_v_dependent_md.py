@@ -88,15 +88,16 @@ calc_fit       = [ fitCalc(item) for item in dom]
 
 plt.scatter(exptT, exptFq, marker='s', s=35, color='r', label='experiment')
 #plt.plot(exptT[:-1], exptFit)
-plt.plot(dom, expr_fit)
+plt.plot(dom, expr_fit, color='r')
 plt.scatter(calcT, calcFq, marker='o', s=35,color='g', label='calculated')
 #plt.plot(calcT,calcFit)
-plt.plot(dom, calc_fit)
+plt.plot(dom, calc_fit, color='g')
 
 plt.legend(loc=3)
 
 plt.title("")
 plt.xlabel("temperature/K")
 plt.ylabel('frequency/MHz')
+plt.savefig('fig.pdf', format='pdf')
 
 plt.show()
