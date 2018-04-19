@@ -17,11 +17,5 @@ Python helper library for QUANTUM ESPRESSO
 
 
 
-![scrot](./img/3.jpg "Just print the object or return it as a string - it looks legitimate.")
 
-
-![scrot](./img/1.jpg "Just print the object or return it as a string - it looks legitimate.")
-
-
-![scrot](./img/5.jpg "Just print the object or return it as a string - it looks legitimate.")
-
+![scrot](./img/11.01.49.png "")
