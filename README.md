@@ -5,6 +5,9 @@
   - ```efg.Efg(outfile)``` is an object for fetching data from EFG calculations with gipaw.x
 * ```namelist.Namelist()``` is for scripting the creation of input files for pw.x
 
+![scrot](./img/md_1.png"")
+![scrot](./img/efg_1.png"")
+![scrot](./img/efg_2.png"")
 
 ![scrot](./img/8.png "")
 #####A python wrapper for QE data creation/parsing that retains the expressiveness of the python language.

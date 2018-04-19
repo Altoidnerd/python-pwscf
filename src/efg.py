@@ -165,8 +165,8 @@ class Efg(object):
     return tensors
     
 
-  @property
-  def symmetrized_efg(self, atom=None):
+#  @property
+#  def symmetrized_efg(self, atom=None):
 #    begin_on_pattern= '(symmetrized)'
 #    begin_on_index  = self.file_array.index(filtr(begin_on_pattern, self.file_array)[0])
 #    end_on_pattern  = 'NQR/NMR SPECTROSCOPIC PARAMETERS'
@@ -179,11 +179,11 @@ class Efg(object):
 #      tens = [ lmap( float, thing.split()[2:]) for thing in filtr(self.atom_labels[i], file_slice) ] 
 #      tensors[i] = tens
 #    return tensors
-     print('Not implemented.')
-     pass
+#    print('Not implemented.')
+#    pass
 
   #@property
-  def compd_eigvals(self, atom=None, sym=True, herm=False):
+  #def compd_eigvals(self, atom=None, sym=True, herm=False):
   #  if sym:
   #    efgs = self.symmetrized_efg
   #  else:
@@ -193,9 +193,8 @@ class Efg(object):
   #  else:
   #    eigfunc = np.linalg.eigh
   #  return [ eigfunc(thing) for thing  in  efgs ]
-     print('Not implemented.')
-     pass
-
+  #  print('Not implemented.')
+  #   pass
 
 
   @property
