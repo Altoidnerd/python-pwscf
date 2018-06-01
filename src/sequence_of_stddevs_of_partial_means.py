@@ -3,7 +3,7 @@
 #
 #################################################################################
 #										#
-# Copyright (c) 2018 Allen Majewski (altoidnerd)				#
+# Copyright (c) 2016 Allen Majewski (altoidnerd)				#
 # Permission is hereby granted, free of charge, to any person obtaining a 	#
 # copy of this software and associated documentation files (the "Software"),	#
 # to deal in the Software without restriction, including without limitation	#
@@ -22,26 +22,26 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE	#
 # THE SOFTWARE.									#                                
 #
-#################################################################################
-
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
 
+#
 # Suppose we are interested in the convergence of the mean
 # of a quantity that is expensive to sample.  
 #
 # We'd like to know when we have sampled sufficiently,
 # and be able to quantify the degree of conifdence that the
 # mean of our sample is stable. 
-#
+
 # That is, we want to say that the sample mean is within some tolerance of
 # the "true mean" - the mean we'd calculate if we let the sample size go to infinity.
 #
 #
 # Let {xi} be a sequence or set of observations of the quantity whose true mean
-# is desired.  
+# is desired.
+#   
 
 mean_sequence                           = []
 std_dev_sequence                        = []
@@ -64,8 +64,9 @@ data = pd.DataFrame.from_dict( {'xi':[ np.sin(np.random.rand()*2*np.pi) + 10*np.
 #
 max_frac = 1     
 min_frac = 0.05   
-num_samples_at_each_fraction = 150 
-fractions = np.linspace(min_frac, max_frac, num_samples_at_each_fraction)
+num_samples_at_each_fraction = 300 
+num_fracs = 150
+fractions = np.linspace(min_frac, max_frac, num_fracs)
 
 
 #
@@ -92,9 +93,9 @@ for fraction in fractions:
         
     
     frac_std_of_the_means = np.std(frac_sample_mean_list)
-    # mean of the frac sized partial means
+    # mean of the frac*len(xi) sized partial means of xi
     frac_mean             = np.average(frac_sample_mean_list)
-    # mean of the frac sized partial std_dev's
+    # mean of the frac*len(xi) sized partial std_devs of xi
     std_dev_mean          = np.average(frac_std_dev_list)
     # we keep track of the standard deviation of the set of means generated at each frac
     std_of_the_sample_means_given_frac_list.append(frac_std_of_the_means)
@@ -117,3 +118,5 @@ data_vector = data.xi
 for var in (data_vector, mean_sequence, std_dev_sequence, std_of_the_sample_means_given_frac_list):
     title_string = [ k for k,v in locals().items() if v is var ][0]
     scatter(var, title_string)
+
+#################################################################################
