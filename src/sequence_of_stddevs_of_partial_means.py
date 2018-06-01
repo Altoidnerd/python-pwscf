@@ -21,7 +21,9 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,	#
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE	#
 # THE SOFTWARE.									#                                
-#
+#################################################################################
+
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -118,5 +120,3 @@ data_vector = data.xi
 for var in (data_vector, mean_sequence, std_dev_sequence, std_of_the_sample_means_given_frac_list):
     title_string = [ k for k,v in locals().items() if v is var ][0]
     scatter(var, title_string)
-
-#################################################################################
