@@ -117,6 +117,3 @@ data_vector = data.xi
 for var in (data_vector, mean_sequence, std_dev_sequence, std_of_the_sample_means_given_frac_list):
     title_string = [ k for k,v in locals().items() if v is var ][0]
     scatter(var, title_string)
-
-
-#################################################################################
