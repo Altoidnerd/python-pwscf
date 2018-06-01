@@ -111,7 +111,6 @@ assert len(mean_sequence) == len(std_dev_sequence) == len(std_of_the_sample_mean
 def scatter(pdseries, title_string):
     plt.scatter(range(len(pdseries)), pdseries, marker='.', s=1.5)
     print(title_string)
-    #plt.title(title_string)
     plt.show()
 
 
