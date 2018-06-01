@@ -47,7 +47,7 @@ import matplotlib.pyplot as plt
 
 mean_sequence                           = []
 std_dev_sequence                        = []
-std_of_the_sample_means_given_frac_list = []
+std_of_the_sample_means_given_frac      = []
 
 # data is our {xi} whose convergence is of interest
 # here it is a noise sine shifted up by about 5
@@ -100,13 +100,13 @@ for fraction in fractions:
     # mean of the frac*len(xi) sized partial std_devs of xi
     std_dev_mean          = np.average(frac_std_dev_list)
     # we keep track of the standard deviation of the set of means generated at each frac
-    std_of_the_sample_means_given_frac_list.append(frac_std_of_the_means)
+    std_of_the_sample_means_given_frac.append(frac_std_of_the_means)
     
     mean_sequence.append(frac_mean)
     std_dev_sequence.append(std_dev_mean)
 
 
-assert len(mean_sequence) == len(std_dev_sequence) == len(std_of_the_sample_means_given_frac_list)
+assert len(mean_sequence) == len(std_dev_sequence) == len(std_of_the_sample_means_given_frac)
 
 def scatter(pdseries, title_string):
     plt.scatter(range(len(pdseries)), pdseries, marker='.', s=1.5)
@@ -116,6 +116,6 @@ def scatter(pdseries, title_string):
 
 data_vector = data.xi
 
-for var in (data_vector, mean_sequence, std_dev_sequence, std_of_the_sample_means_given_frac_list):
+for var in (data_vector, mean_sequence, std_dev_sequence, std_of_the_sample_means_given_frac):
     title_string = [ k for k,v in locals().items() if v is var ][0]
     scatter(var, title_string)
