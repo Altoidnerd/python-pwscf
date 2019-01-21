@@ -31,6 +31,7 @@
 import sys
 import numpy as np
 from nqr_parser import f32
+# import f1 for spin 1; f32 is for spin 3/2 (default)
 
 def filtr(pattern, array):
   """
